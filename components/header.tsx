@@ -1,40 +1,289 @@
+"use client"
+
+import { useState, useEffect } from "react";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-import { Scale } from "lucide-react";
-import { ThemeToggle } from "./theme-toggle";
+import { Scale, Menu, X, ChevronRight, Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+
+function ThemeToggle() {
+    const { setTheme, theme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
+    if (!mounted) {
+        return (
+            <div className="h-9 w-9 rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950" />
+        );
+    }
+
+    return (
+        <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors cursor-pointer"
+            aria-label="Schimbă tema"
+        >
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+        </motion.button>
+    );
+}
 
 export function Header() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    const { scrollY } = useScroll();
+
+    const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
+    const headerY = useTransform(scrollY, [0, 100], [0, -8]);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    // FIX BUG: Închide meniul automat dacă fereastra este redimensionată la desktop (> 768px)
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth >= 768) {
+                setIsMenuOpen(false);
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    // Blochează scroll-ul paginii când meniul este deschis
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+        return () => { document.body.style.overflow = 'unset'; };
+    }, [isMenuOpen]);
+
+    const menuItems = [
+        { name: "Acasă", href: "#" },
+        { name: "Servicii", href: "#servicii" },
+        { name: "Despre Noi", href: "#despre" },
+        { name: "Contact", href: "#contact" },
+    ];
+
+    const containerVariants = {
+        hidden: { opacity: 0, y: -20 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, staggerChildren: 0.1 },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: -10 },
+        visible: { opacity: 1, y: 0 },
+    };
+
+    const mobileMenuVariants = {
+        closed: { opacity: 0, height: 0 },
+        open: { opacity: 1, height: "auto" },
+    };
+
+    const mobileItemVariants = {
+        closed: { opacity: 0, x: -20 },
+        open: { opacity: 1, x: 0 },
+    };
+
     return (
-        <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-            <header className="w-full max-w-5xl rounded-full border border-slate-200/60 dark:border-slate-800/60 bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl shadow-lg transition-all duration-300">
-                <div className="flex h-14 items-center justify-between px-6">
+        <>
+            {/* --- BACKDROP BLUR PENTRU MOBILE --- */}
+            <AnimatePresence>
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.3 }}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="fixed inset-0 z-40 bg-slate-900/20 dark:bg-slate-950/40 backdrop-blur-sm cursor-pointer md:hidden" // Am adăugat și md:hidden pentru siguranță
+                    />
+                )}
+            </AnimatePresence>
 
-                    {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 p-1.5 rounded-full transition-transform group-hover:scale-110">
-                            <Scale className="h-4 w-4" />
-                        </div>
-                        <span className="text-base font-bold tracking-tight text-slate-900 dark:text-white">AvocatDemo</span>
-                    </Link>
+            {/* --- HEADER PRINCIPAL --- */}
+            <motion.div
+                style={{ y: headerY }}
+                className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4 pointer-events-none"
+            >
+                <motion.header
+                    initial="hidden"
+                    animate="visible"
+                    variants={containerVariants}
+                    style={{ scale: headerScale }}
+                    className={`w-full max-w-5xl pointer-events-auto rounded-3xl border transition-all duration-500 ${isScrolled || isMenuOpen
+                        ? "border-slate-300/80 dark:border-slate-700/80 bg-white/95 dark:bg-slate-950/95 shadow-xl backdrop-blur-md"
+                        : "border-slate-200/60 dark:border-slate-800/60 bg-white/60 dark:bg-slate-900/60 shadow-lg backdrop-blur-sm"
+                        }`}
+                >
+                    <div className="flex h-14 items-center justify-between px-6">
+                        {/* Logo */}
+                        <motion.div variants={itemVariants}>
+                            <Link href="/" className="flex items-center gap-2 group" onClick={() => setIsMenuOpen(false)}>
+                                <motion.div
+                                    whileHover={{ rotate: 360, scale: 1.1 }}
+                                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                                    className="bg-linear-to-br from-slate-800 to-slate-950 dark:from-white dark:to-slate-200 text-white dark:text-slate-900 p-1.5 rounded-full shadow-md"
+                                >
+                                    <Scale className="h-4 w-4" />
+                                </motion.div>
+                                <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white transition-colors">
+                                    AvocatDemo
+                                </span>
+                            </Link>
+                        </motion.div>
 
-                    {/* Meniu Desktop */}
-                    <nav className="hidden md:flex gap-8 text-sm font-medium">
-                        <Link href="#" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">Acasă</Link>
-                        <Link href="#" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">Servicii</Link>
-                        <Link href="#" className="text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors">Contact</Link>
-                    </nav>
-
-                    {/* Acțiuni Dreapta */}
-                    <div className="flex items-center gap-3">
-                        <ThemeToggle />
-                        <Link
-                            href="#"
-                            className="hidden sm:inline-flex h-9 items-center justify-center rounded-full bg-slate-900 px-5 text-sm font-medium text-white shadow-md transition-all hover:bg-slate-800 hover:shadow-lg dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200"
+                        {/* Meniu Desktop */}
+                        <motion.nav
+                            variants={itemVariants}
+                            className="hidden md:flex gap-1"
                         >
-                            Consultă Acum
-                        </Link>
+                            {menuItems.map((item) => (
+                                <motion.div key={item.name} className="relative">
+                                    <Link
+                                        href={item.href}
+                                        className="block px-4 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors"
+                                    >
+                                        <motion.span
+                                            whileHover={{ y: -2 }}
+                                            className="inline-block"
+                                        >
+                                            {item.name}
+                                        </motion.span>
+                                    </Link>
+                                    <motion.div
+                                        className="absolute bottom-1 left-3 right-3 h-0.5 bg-linear-to-r from-blue-600 to-slate-900 dark:from-blue-400 dark:to-slate-100 rounded-full origin-left"
+                                        initial={{ scaleX: 0 }}
+                                        whileHover={{ scaleX: 1 }}
+                                        transition={{ duration: 0.3 }}
+                                    />
+                                </motion.div>
+                            ))}
+                        </motion.nav>
+
+                        {/* Acțiuni Dreapta */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="flex items-center gap-3"
+                        >
+                            <ThemeToggle />
+
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="hidden sm:block"
+                            >
+                                <Link
+                                    href="#contact"
+                                    className="inline-flex h-9 items-center justify-center rounded-full bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 px-5 text-sm font-medium text-white shadow-lg transition-all hover:from-slate-800 hover:to-slate-600 dark:hover:from-blue-700 dark:hover:to-blue-800"
+                                >
+                                    <span>Consultă Acum</span>
+                                    <motion.span
+                                        initial={{ x: 0 }}
+                                        whileHover={{ x: 3 }}
+                                        transition={{ duration: 0.2 }}
+                                        className="inline-block ml-1"
+                                    >
+                                        <ChevronRight className="h-3 w-3" />
+                                    </motion.span>
+                                </Link>
+                            </motion.div>
+
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                className="md:hidden p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                            >
+                                <AnimatePresence mode="wait">
+                                    {isMenuOpen ? (
+                                        <motion.div
+                                            key="close"
+                                            initial={{ rotate: -90, opacity: 0 }}
+                                            animate={{ rotate: 0, opacity: 1 }}
+                                            exit={{ rotate: 90, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <X className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="menu"
+                                            initial={{ rotate: 90, opacity: 0 }}
+                                            animate={{ rotate: 0, opacity: 1 }}
+                                            exit={{ rotate: -90, opacity: 0 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <Menu className="h-5 w-5 text-slate-700 dark:text-slate-300" />
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </motion.button>
+                        </motion.div>
                     </div>
-                </div>
-            </header>
-        </div>
+
+                    <AnimatePresence>
+                        {isMenuOpen && (
+                            <motion.div
+                                initial="closed"
+                                animate="open"
+                                exit="closed"
+                                variants={mobileMenuVariants}
+                                className="md:hidden overflow-hidden border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 rounded-b-3xl"
+                            >
+                                <div className="px-6 py-4 space-y-2">
+                                    {menuItems.map((item) => (
+                                        <motion.div
+                                            key={item.name}
+                                            variants={mobileItemVariants}
+                                        >
+                                            <Link
+                                                href={item.href}
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center justify-between px-4 py-3 text-base font-medium text-slate-700 dark:text-slate-300 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                                            >
+                                                {item.name}
+                                                <ChevronRight className="h-4 w-4 opacity-50" />
+                                            </Link>
+                                        </motion.div>
+                                    ))}
+                                    <motion.div
+                                        variants={mobileItemVariants}
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        <Link
+                                            href="#contact"
+                                            onClick={() => setIsMenuOpen(false)}
+                                            className="flex items-center justify-center w-full mt-4 h-12 rounded-xl bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 text-white font-medium shadow-lg"
+                                        >
+                                            Consultă Acum
+                                        </Link>
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </motion.header>
+            </motion.div>
+        </>
     );
 }
