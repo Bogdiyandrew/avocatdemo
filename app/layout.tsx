@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AvocatDemo - Servicii Juridice Profesionale",
+  title: "AvocatDemo - Servicii juridice profesionale",
   description: "Cabinet de avocatură specializat în drept penal, civil și comercial.",
 };
 
