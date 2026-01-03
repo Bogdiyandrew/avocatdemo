@@ -18,17 +18,17 @@ export function HeroSection() {
                         <div className="flex flex-wrap gap-3">
                             <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 dark:bg-emerald-900/20 dark:border-emerald-800 px-3 py-1 text-xs font-semibold text-emerald-700 dark:text-emerald-400">
                                 <ShieldCheck className="h-3.5 w-3.5" />
-                                Confidențialitate Garantată
+                                Confidențialitate garantată
                             </div>
                             <div className="inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800 px-3 py-1 text-xs font-semibold text-blue-700 dark:text-blue-400">
                                 <Scale className="h-3.5 w-3.5" />
-                                Expertiză Juridică
+                                Expertiză juridică
                             </div>
                         </div>
 
                         <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl text-slate-900 dark:text-white leading-tight">
-                            Probleme Legale? <br />
-                            <span className="text-blue-700 dark:text-blue-500">Rezolvăm Rapid.</span>
+                            Probleme legale? <br />
+                            <span className="text-blue-700 dark:text-blue-500">Rezolvăm rapid.</span>
                         </h1>
 
                         <p className="max-w-[600px] text-slate-600 dark:text-slate-300 text-lg md:text-xl leading-relaxed">
@@ -46,7 +46,7 @@ export function HeroSection() {
                                 className="group inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-red-600 hover:bg-red-700 text-white px-8 text-base font-bold shadow-lg shadow-red-600/20 transition-all hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 dark:focus:ring-offset-slate-900"
                             >
                                 <Phone className="h-5 w-5 animate-pulse" />
-                                Sună Acum - Urgențe
+                                Sună acum - urgențe
                             </Link>
 
                             {/* Butonul Secundar - Programare */}
@@ -55,7 +55,7 @@ export function HeroSection() {
                                 className="inline-flex h-14 items-center justify-center gap-2 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-8 text-base font-semibold text-slate-900 dark:text-white shadow-sm transition-colors hover:bg-slate-50 dark:hover:bg-slate-700 hover:border-slate-300"
                             >
                                 <CalendarDays className="h-5 w-5 text-slate-500 dark:text-slate-400" />
-                                Programează Consultanță
+                                Contact
                             </Link>
                         </div>
 

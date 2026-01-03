@@ -73,12 +73,13 @@ export function Header() {
     }, [isMenuOpen]);
 
     const menuItems = [
-        { name: "Acasă", href: "#" },
-        { name: "Servicii", href: "#servicii" },
-        { name: "Despre Noi", href: "#despre" },
-        { name: "Contact", href: "#contact" },
+        { name: "Acasă", href: "/" },
+        { name: "Despre Noi", href: "/despre-noi" }, // Pagină separată pentru autoritate
+        { name: "Servicii", href: "/servicii" },     // Pagină detaliată
+        { name: "Blog Juridic", href: "/blog" },     // Arată că ești activ (chiar dacă e gol la început)
+        { name: "Programare", href: "/programare" }, // Funcția "wow" pentru clienți
+        // Contact îl putem lăsa în meniu sau doar pe butonul mare
     ];
-
     const containerVariants = {
         hidden: { opacity: 0, y: -20 },
         visible: {
