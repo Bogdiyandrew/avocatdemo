@@ -196,7 +196,7 @@ export function Header() {
                                     href="#contact"
                                     className="inline-flex h-9 items-center justify-center rounded-full bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 px-5 text-sm font-medium text-white shadow-lg transition-all hover:from-slate-800 hover:to-slate-600 dark:hover:from-blue-700 dark:hover:to-blue-800"
                                 >
-                                    <span>Consultă Acum</span>
+                                    <span>Contact</span>
                                     <motion.span
                                         initial={{ x: 0 }}
                                         whileHover={{ x: 3 }}

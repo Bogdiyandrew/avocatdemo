@@ -4,43 +4,40 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Clock, MapPin, Award, Phone } from 'lucide-react'; // RE-IMPORTAT PHONE
-import { motion, useScroll, useTransform, useInView, Variants } from 'framer-motion';
+import { Clock, Award, Phone, CheckCircle2, Video } from 'lucide-react';
+import { motion, useScroll, useTransform, useInView, Variants, useMotionValue, animate } from 'framer-motion';
 
-// --- Componenta pentru Numărătoare Animată ---
+// --- AICI ESTE MODIFICAREA PRINCIPALĂ ---
 function CounterAnimation({ target, suffix = '' }: { target: number; suffix?: string }) {
-    const [count, setCount] = useState(0);
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
 
+    // Folosim MotionValue pentru performanță maximă (nu randează componenta la fiecare număr)
+    const count = useMotionValue(0);
+    // Rotunjim valoarea ca să nu afișeze zecimale
+    const rounded = useTransform(count, (latest) => Math.round(latest));
+
     useEffect(() => {
-        if (!isInView) return;
+        if (isInView) {
+            const controls = animate(count, target, {
+                duration: 4,      // Durata animației (4 secunde = slow/lent)
+                delay: 2,         // Așteaptă 2 secunde înainte să înceapă
+                ease: "easeOut",  // Încetinește frumos spre final (smooth)
+            });
 
-        let start = 0;
-        const duration = 2000;
-        const increment = target / (duration / 16);
-
-        const timer = setInterval(() => {
-            start += increment;
-            if (start >= target) {
-                setCount(target);
-                clearInterval(timer);
-            } else {
-                setCount(Math.floor(start));
-            }
-        }, 16);
-
-        return () => clearInterval(timer);
-    }, [target, isInView]);
+            return controls.stop;
+        }
+    }, [isInView, target, count]);
 
     return (
-        <div ref={ref} className="text-2xl font-bold text-white">
-            {count}{suffix}
+        <div ref={ref} className="text-2xl font-bold text-white flex items-center">
+            <motion.span>{rounded}</motion.span>
+            {suffix}
         </div>
     );
 }
+// ----------------------------------------
 
-// --- Componenta Principală HeroSection ---
 export function HeroSection() {
     const heroImages = [
         '/photos/hero1.jpeg',
@@ -51,7 +48,6 @@ export function HeroSection() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const containerRef = useRef(null);
 
-    // Parallax Effect
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
@@ -60,7 +56,6 @@ export function HeroSection() {
     const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
     const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
-    // Carousel Timer
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) =>
@@ -71,7 +66,6 @@ export function HeroSection() {
         return () => clearInterval(interval);
     }, [heroImages.length]);
 
-    // --- Variante Animații Framer Motion ---
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
@@ -119,9 +113,8 @@ export function HeroSection() {
     return (
         <section
             ref={containerRef}
-            className="relative w-full min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-950"
+            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
         >
-            {/* 1. Background Images (Layer 0) */}
             <motion.div
                 style={{ y }}
                 className="absolute inset-0 w-full h-full scale-110 z-0"
@@ -149,18 +142,20 @@ export function HeroSection() {
                 ))}
             </motion.div>
 
-            {/* 2. Overlays (Layer 1) */}
-            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/95 via-slate-900/85 to-transparent z-10" />
+            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40 z-10" />
 
             <div
-                className="absolute inset-0 opacity-30 z-10 mix-blend-overlay"
-                style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 400 400\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")' }}
+                className="absolute inset-0 z-10 opacity-20 pointer-events-none"
+                style={{
+                    backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+                    backgroundSize: '30px 30px'
+                }}
             />
+            <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.4)_100%)] pointer-events-none" />
 
-            {/* 3. Main Content (Layer 2) */}
             <motion.div
                 style={{ opacity }}
-                className="container px-4 md:px-6 mx-auto relative z-20"
+                className="container px-4 md:px-6 mx-auto relative z-20 mt-16 sm:mt-0"
             >
                 <motion.div
                     className="max-w-4xl"
@@ -168,21 +163,17 @@ export function HeroSection() {
                     initial="hidden"
                     animate="visible"
                 >
-                    {/* Badge */}
                     <motion.div
                         variants={badgeVariants}
-                        className="inline-flex items-center gap-2 mb-6 text-amber-400 font-medium"
+                        className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm"
                     >
-                        <motion.div
-                            className="h-1 w-8 bg-amber-400 rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: 32 }}
-                            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-                        />
-                        <span className="text-sm tracking-wider uppercase">Cabinet Autorizat București</span>
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        </span>
+                        <span className="text-xs font-semibold tracking-wider uppercase text-slate-300">Cabinet Autorizat București</span>
                     </motion.div>
 
-                    {/* Headline */}
                     <motion.h1
                         variants={titleVariants}
                         className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]"
@@ -201,23 +192,12 @@ export function HeroSection() {
 
                         <motion.span
                             variants={wordVariants}
-                            className="text-amber-400 mt-2 relative inline-block"
+                            className="bg-clip-text text-transparent bg-linear-to-r from-amber-200 via-amber-500 to-amber-200 bg-size-[200%_auto] animate-[shimmer_4s_linear_infinite] mt-2 inline-block pb-2"
                         >
                             o apărare serioasă.
-                            <motion.span
-                                className="absolute -bottom-1 left-0 w-full h-4 bg-white/20 -z-10 -rotate-1 blur-sm origin-left"
-                                initial={{ scaleX: 0 }}
-                                animate={{ scaleX: 1 }}
-                                transition={{
-                                    delay: 1.5,
-                                    duration: 0.8,
-                                    ease: "circOut"
-                                }}
-                            />
                         </motion.span>
                     </motion.h1>
 
-                    {/* Subheadline */}
                     <motion.p
                         variants={itemVariants}
                         className="text-xl md:text-2xl text-slate-200 mb-8 max-w-2xl font-light leading-relaxed"
@@ -226,149 +206,106 @@ export function HeroSection() {
                         Litigii, contracte, penal — doar rezultate concrete.
                     </motion.p>
 
-                    {/* Stats */}
                     <motion.div
                         variants={itemVariants}
                         className="flex flex-wrap gap-8 mb-10 text-slate-300"
                     >
-                        <motion.div
-                            className="flex items-start gap-3"
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        >
-                            <Award className="h-5 w-5 text-amber-400 mt-1 flex-shrink-0" />
+                        <motion.div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-white/5 border border-white/10">
+                                <Award className="h-5 w-5 text-amber-400" />
+                            </div>
                             <div>
+                                {/* Aici se va folosi noua animație cu delay */}
                                 <CounterAnimation target={487} />
-                                <div className="text-sm">cazuri câștigate</div>
+                                <div className="text-xs uppercase tracking-wide text-slate-400">cazuri câștigate</div>
                             </div>
                         </motion.div>
 
-                        <motion.div
-                            className="flex items-start gap-3"
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        >
-                            <Clock className="h-5 w-5 text-amber-400 mt-1 flex-shrink-0" />
-                            <div>
-                                <CounterAnimation target={24} suffix="h" />
-                                <div className="text-sm">răspuns la urgențe</div>
+                        <motion.div className="flex items-center gap-3">
+                            <div className="p-2 rounded-lg bg-white/5 border border-white/10">
+                                <Clock className="h-5 w-5 text-amber-400" />
                             </div>
-                        </motion.div>
-
-                        <motion.div
-                            className="flex items-start gap-3"
-                            whileHover={{ scale: 1.05, y: -5 }}
-                            transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                        >
-                            <MapPin className="h-5 w-5 text-amber-400 mt-1 flex-shrink-0" />
                             <div>
-                                <CounterAnimation target={12} suffix=" ani" />
-                                <div className="text-sm">în București</div>
+                                <CounterAnimation target={2} suffix="h" />
+                                <div className="text-xs uppercase tracking-wide text-slate-400">răspuns programǎri</div>
                             </div>
                         </motion.div>
                     </motion.div>
 
-                    {/* CTA Buttons - ACUM SUNT DOUĂ BUTOANE */}
-                    <motion.div
-                        variants={itemVariants}
-                        className="flex flex-col sm:flex-row gap-4"
-                    >
-                        {/* BUTON 1: TELEFON (Principal/Roșu) */}
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <Button
-                                asChild
-                                size="lg"
-                                className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-base font-medium shadow-2xl shadow-red-900/50 border-0 group"
-                            >
-                                <Link href="tel:+40722123456">
-                                    <Phone className="mr-2 h-5 w-5" />
-                                    Sună Acum: 0722 123 456
-                                </Link>
-                            </Button>
-                        </motion.div>
+                    <motion.div variants={itemVariants} className="flex flex-col gap-6">
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                <Button
+                                    asChild
+                                    size="lg"
+                                    className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-base font-medium shadow-[0_0_40px_-10px_rgba(220,38,38,0.5)] border-0 rounded-xl"
+                                >
+                                    <Link href="tel:+40722xxxxxx">
+                                        <Phone className="mr-2 h-5 w-5" />
+                                        Urgențe: 0722 xxx xxx
+                                    </Link>
+                                </Button>
+                            </motion.div>
 
-                        {/* BUTON 2: PROGRAMARE (Secundar/Outline) */}
-                        <motion.div
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                        >
-                            <Button
-                                asChild
-                                variant="outline"
-                                size="lg"
-                                className="h-14 px-8 bg-white/10 hover:bg-white/20 text-white border-white/30 backdrop-blur-md group"
-                            >
-                                <Link href="/programare">
-                                    Programează consultație
-                                    <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                                </Link>
-                            </Button>
-                        </motion.div>
+                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                                <Button
+                                    asChild
+                                    variant="outline"
+                                    size="lg"
+                                    className="h-14 px-8 bg-white/5 hover:bg-white text-white border-white/20 backdrop-blur-md rounded-xl"
+                                >
+                                    <Link href="/programare">
+                                        Programează consultație
+                                        <Video className="ml-2 h-5 w-5" />
+                                    </Link>
+                                </Button>
+                            </motion.div>
+                        </div>
+
+                        <div className="flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-950/30 px-3 py-1.5 rounded-md w-fit border border-emerald-500/20">
+                            <CheckCircle2 className="h-3 w-3" />
+                            Avocat de serviciu disponibil acum
+                        </div>
                     </motion.div>
-
-                    {/* Trust signal */}
-                    <motion.p
-                        variants={itemVariants}
-                        className="mt-8 text-sm text-slate-400"
-                    >
-                        Prima consultație <strong className="text-white">gratuită</strong> — analizăm cazul tău în detaliu.
-                    </motion.p>
                 </motion.div>
             </motion.div>
 
-            {/* 4. Testimonial Card (Layer 3 - Floating) */}
             <motion.div
-                initial={{ opacity: 0, x: 100, y: 100 }}
-                animate={{ opacity: 1, x: 0, y: 0 }}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                style={{ opacity }}
                 transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-                className="hidden lg:block absolute bottom-12 right-12 z-20"
+                className="hidden lg:block absolute bottom-24 right-12 z-20 perspective-1000"
             >
                 <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                    whileHover={{ scale: 1.05, rotate: 2, transition: { duration: 0.3 } }}
-                    className="bg-slate-900/80 backdrop-blur-xl p-6 rounded-lg border border-white/10 shadow-2xl max-w-[340px]"
+                    whileHover={{
+                        y: -10,
+                        rotateX: 5,
+                        rotateY: -5,
+                        transition: { duration: 0.4, type: "spring" }
+                    }}
+                    className="bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-w-[340px] transform-gpu"
                 >
                     <div className="flex items-center gap-2 mb-3">
                         <div className="flex gap-0.5">
                             {[1, 2, 3, 4, 5].map((star) => (
-                                <motion.div
-                                    key={star}
-                                    initial={{ opacity: 0, scale: 0 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{
-                                        delay: 1.2 + (star * 0.1),
-                                        type: "spring",
-                                        stiffness: 500,
-                                        damping: 15
-                                    }}
-                                    className="text-amber-400 text-lg"
-                                >
-                                    ★
-                                </motion.div>
+                                <span key={star} className="text-amber-400 text-sm">★</span>
                             ))}
                         </div>
-                        <span className="text-xs text-emerald-400 ml-auto">Verificat Google</span>
+                        <span className="text-xs text-emerald-400 ml-auto font-medium">Verificat Google</span>
                     </div>
 
-                    <p className="text-slate-200 text-sm mb-4 leading-relaxed">
-                        "M-au scos dintr-un litigiu pe care îl tăram de 2 ani. Direct la subiect, fără perdea de timp. Recomand cu încredere."
+                    <p className="text-slate-200 text-sm mb-4 leading-relaxed italic">
+                        &quot;M-au scos dintr-un litigiu pe care îl tăram de 2 ani. Direct la subiect, fără perdea de timp. Recomand.&quot;
                     </p>
 
                     <div className="flex items-center gap-3 pt-3 border-t border-white/10">
-                        <motion.div
-                            className="h-10 w-10 rounded-full bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold shadow-lg"
-                            whileHover={{ rotate: 20 }}
-                            transition={{ duration: 0.5 }}
-                        >
+                        <div className="h-9 w-9 rounded-full bg-linear-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold text-xs shadow-lg">
                             MC
-                        </motion.div>
+                        </div>
                         <div>
                             <p className="text-sm font-medium text-white">Mihai C.</p>
-                            <p className="text-xs text-slate-400">Proprietar SRL • Sector 1</p>
+                            <p className="text-[10px] text-slate-400 uppercase tracking-wider">Proprietar SRL • Sector 1</p>
                         </div>
                     </div>
                 </motion.div>

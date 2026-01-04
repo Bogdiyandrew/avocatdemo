@@ -40,6 +40,11 @@ body {
     animation: fadeInUp 0.8s ease-out forwards;
     opacity: 0;
   }
+
+  /* --- NOU: Clasa necesară pentru efectul 3D de pe cardul de testimonial --- */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
 
 @keyframes fadeIn {
@@ -61,5 +66,20 @@ body {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* --- NOU: Animația pentru Textul cu Gradient din Hero Section --- */
+@keyframes shimmer {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }
