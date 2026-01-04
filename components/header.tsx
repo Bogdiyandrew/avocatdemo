@@ -43,14 +43,11 @@ export function Header() {
     const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
     const headerY = useTransform(scrollY, [0, 100], [0, -8]);
 
-    // --- FUNCȚIE PENTRU BUTONUL ACASĂ / LOGO ---
-    // Dacă suntem deja pe Home, forțăm scroll-ul sus fără reload
     const handleHomeClick = (e: React.MouseEvent) => {
         if (window.location.pathname === '/') {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
-            // Opțional: Curățăm URL-ul și aici, pentru siguranță
             if (window.location.hash) {
                 history.replaceState(null, '', window.location.pathname);
             }
@@ -60,21 +57,15 @@ export function Header() {
 
     useEffect(() => {
         const handleScroll = () => {
-            // 1. Starea vizuală a header-ului
             setIsScrolled(window.scrollY > 20);
 
-            // 2. --- FIX-UL PENTRU URL (Problema din Screenshot) ---
-            // Dacă utilizatorul ajunge în partea de sus a paginii (Hero)
             if (window.scrollY < 50) {
-                // Dacă există un hash în URL (ex: #contact), îl ștergem
                 if (window.location.hash) {
                     history.replaceState(null, '', window.location.pathname);
                 }
-                // Resetăm starea vizuală a meniului
                 setActiveSection("");
             }
 
-            // 3. Detectarea secțiunii active pentru highlight în meniu
             const sections = ['servicii', 'despre', 'contact'];
             let current = '';
 
@@ -82,25 +73,21 @@ export function Header() {
                 const element = document.getElementById(id);
                 if (element) {
                     const rect = element.getBoundingClientRect();
-                    // O secțiune e "activă" dacă e aproximativ la mijlocul ecranului
                     if (rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2) {
                         current = id;
                     }
                 }
             }
-            // Actualizăm doar starea vizuală, nu și URL-ul (pentru a evita spam-ul în history)
             if (window.scrollY >= 50) {
                 setActiveSection(current);
             }
         };
 
         window.addEventListener("scroll", handleScroll);
-        // Apelăm o dată la montare pentru a seta starea corectă
         handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    // Închide meniul pe mobile la resize (trecere la desktop)
     useEffect(() => {
         const handleResize = () => {
             if (window.innerWidth >= 768) {
@@ -111,7 +98,6 @@ export function Header() {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    // Blochează scroll-ul paginii când meniul mobile este deschis
     useEffect(() => {
         if (isMenuOpen) {
             document.body.style.overflow = 'hidden';
@@ -123,7 +109,7 @@ export function Header() {
 
     const menuItems = [
         { name: "Acasă", href: "/", id: "" },
-        { name: "Despre noi", href: "/#desprenoi", id: "desprenoi" }, // Link-uri cu ID pentru scroll
+        { name: "Despre noi", href: "/#desprenoi", id: "desprenoi" },
         { name: "Servicii", href: "/#serviciipg", id: "serviciipg" },
         { name: "Blog juridic", href: "/blog", id: "blog" },
         { name: "Programare", href: "/programare", id: "programare" },
@@ -145,7 +131,6 @@ export function Header() {
 
     return (
         <>
-            {/* Backdrop Blur Mobile */}
             <AnimatePresence>
                 {isMenuOpen && (
                     <motion.div
@@ -174,12 +159,11 @@ export function Header() {
                         }`}
                 >
                     <div className="flex h-14 items-center justify-between px-6">
-                        {/* Logo */}
                         <motion.div variants={itemVariants}>
                             <Link
                                 href="/"
                                 className="flex items-center gap-2 group"
-                                onClick={handleHomeClick} // Folosim funcția custom
+                                onClick={handleHomeClick}
                             >
                                 <motion.div
                                     whileHover={{ rotate: 360, scale: 1.1 }}
@@ -194,7 +178,6 @@ export function Header() {
                             </Link>
                         </motion.div>
 
-                        {/* Meniu Desktop */}
                         <motion.nav
                             variants={itemVariants}
                             className="hidden md:flex gap-1"
@@ -205,7 +188,6 @@ export function Header() {
                                     <motion.div key={item.name} className="relative">
                                         <Link
                                             href={item.href}
-                                            // Dacă e Acasă, folosim handleHomeClick, altfel undefined
                                             onClick={item.id === "" ? handleHomeClick : undefined}
                                             className={`block px-4 py-2 text-sm font-medium transition-colors ${isActive
                                                 ? "text-slate-900 dark:text-white"
@@ -219,7 +201,6 @@ export function Header() {
                                                 {item.name}
                                             </motion.span>
                                         </Link>
-                                        {/* Linia de highlight animată */}
                                         <motion.div
                                             className="absolute bottom-1 left-3 right-3 h-0.5 bg-linear-to-r from-blue-600 to-slate-900 dark:from-blue-400 dark:to-slate-100 rounded-full origin-left"
                                             initial={{ scaleX: 0 }}
@@ -232,7 +213,6 @@ export function Header() {
                             })}
                         </motion.nav>
 
-                        {/* Acțiuni Dreapta */}
                         <motion.div
                             variants={itemVariants}
                             className="flex items-center gap-3"
@@ -319,7 +299,6 @@ export function Header() {
                                         >
                                             <Link
                                                 href={item.href}
-                                                // La fel și pe mobile, folosim logica custom pentru Home
                                                 onClick={item.id === "" ? handleHomeClick : () => setIsMenuOpen(false)}
                                                 className={`flex items-center justify-between px-4 py-3 text-base font-medium rounded-xl transition-colors ${activeSection === item.id
                                                     ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
