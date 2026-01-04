@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send, AlertCircle, CheckCircle2 } from "lucide-react";
+import { Phone, Mail, MapPin, Send, AlertCircle, CheckCircle2, FormIcon } from "lucide-react";
 
 export function ContactSection() {
     const [formStatus, setFormStatus] = useState<"idle" | "success">("idle");
@@ -31,13 +31,13 @@ export function ContactSection() {
 
                         <div className="space-y-6">
                             {/* Card Telefon */}
-                            <a href="tel:+40700000000" className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
+                            <a href="tel:0722xxxxxx" className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
                                     <Phone className="h-6 w-6" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Sună-ne acum (Urgențe)</p>
-                                    <span className="text-xl font-bold text-slate-900 dark:text-white">+40 700 000 000</span>
+                                    <span className="text-xl font-bold text-slate-900 dark:text-white">0722xxxxxx</span>
                                 </div>
                             </a>
 
@@ -118,7 +118,7 @@ export function ContactSection() {
 
                             <button
                                 type="submit"
-                                className="w-full h-14 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5 active:translate-y-0"
+                                className="w-full h-14 inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-lg shadow-lg shadow-blue-600/20 transition-all hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                             >
                                 {formStatus === "success" ? (
                                     <>
@@ -127,8 +127,8 @@ export function ContactSection() {
                                     </>
                                 ) : (
                                     <>
-                                        <Send className="w-5 h-5" />
-                                        Solicită Consultanță
+                                        <FormIcon className="w-5 h-5" />
+                                        Trimite
                                     </>
                                 )}
                             </button>

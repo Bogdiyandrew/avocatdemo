@@ -25,7 +25,7 @@ function ThemeToggle() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors cursor-pointer"
+            className="relative inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-50 transition-colors cursor-pointer z-50"
             aria-label="Schimbă tema"
         >
             <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
@@ -38,6 +38,9 @@ export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
+
+    // --- NOU: State pentru efectul de "Fluid Hover" ---
+    const [hoveredId, setHoveredId] = useState<string | null>(null);
 
     const { scrollY } = useScroll();
     const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
@@ -110,7 +113,7 @@ export function Header() {
     const menuItems = [
         { name: "Acasă", href: "/", id: "" },
         { name: "Despre noi", href: "/#desprenoi", id: "desprenoi" },
-        { name: "Servicii", href: "/#serviciipg", id: "serviciipg" },
+        { name: "Servicii", href: "/#serviciilenoastre", id: "serviciilenoastre" },
         { name: "Blog juridic", href: "/blog", id: "blog" },
         { name: "Programare", href: "/programare", id: "programare" },
     ];
@@ -159,10 +162,11 @@ export function Header() {
                         }`}
                 >
                     <div className="flex h-14 items-center justify-between px-6">
+                        {/* Logo */}
                         <motion.div variants={itemVariants}>
                             <Link
                                 href="/"
-                                className="flex items-center gap-2 group"
+                                className="flex items-center gap-2 group relative z-50"
                                 onClick={handleHomeClick}
                             >
                                 <motion.div
@@ -178,37 +182,59 @@ export function Header() {
                             </Link>
                         </motion.div>
 
+                        {/* --- MENIU DESKTOP CU ANIMATIE FLUIDĂ --- */}
                         <motion.nav
                             variants={itemVariants}
-                            className="hidden md:flex gap-1"
+                            className="hidden md:flex items-center gap-1"
+                            // Când mouse-ul iese din zona meniului, resetăm hover-ul
+                            onMouseLeave={() => setHoveredId(null)}
                         >
                             {menuItems.map((item) => {
                                 const isActive = activeSection === item.id;
                                 return (
-                                    <motion.div key={item.name} className="relative">
+                                    <div
+                                        key={item.name}
+                                        className="relative"
+                                        // Când mouse-ul intră pe un item, setăm ID-ul hoveruit
+                                        onMouseEnter={() => setHoveredId(item.id)}
+                                    >
                                         <Link
                                             href={item.href}
                                             onClick={item.id === "" ? handleHomeClick : undefined}
-                                            className={`block px-4 py-2 text-sm font-medium transition-colors ${isActive
+                                            className={`relative z-10 block px-4 py-2 text-sm font-medium transition-colors duration-200 ${isActive
                                                 ? "text-slate-900 dark:text-white"
                                                 : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
                                                 }`}
                                         >
-                                            <motion.span
-                                                whileHover={{ y: -2 }}
-                                                className="inline-block"
-                                            >
-                                                {item.name}
-                                            </motion.span>
+                                            {item.name}
                                         </Link>
-                                        <motion.div
-                                            className="absolute bottom-1 left-3 right-3 h-0.5 bg-linear-to-r from-blue-600 to-slate-900 dark:from-blue-400 dark:to-slate-100 rounded-full origin-left"
-                                            initial={{ scaleX: 0 }}
-                                            animate={{ scaleX: isActive ? 1 : 0 }}
-                                            whileHover={{ scaleX: 1 }}
-                                            transition={{ duration: 0.3 }}
-                                        />
-                                    </motion.div>
+
+                                        {/* EFECTUL DE HOVER (PILULA FLUIDĂ) */}
+                                        {hoveredId === item.id && (
+                                            <motion.div
+                                                layoutId="nav-pill"
+                                                className="absolute inset-0 rounded-full bg-slate-100 dark:bg-slate-800"
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                exit={{ opacity: 0 }}
+                                                transition={{
+                                                    type: "spring",
+                                                    stiffness: 300,
+                                                    damping: 30,
+                                                }}
+                                            />
+                                        )}
+
+                                        {/* EFECTUL DE ACTIV (DOT STRĂLUCITOR) */}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="nav-active-dot"
+                                                className="absolute -bottom-1 left-0 right-0 flex justify-center"
+                                            >
+                                                <div className="h-1 w-1 rounded-full bg-blue-600 dark:bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.8)] dark:shadow-[0_0_8px_rgba(96,165,250,0.8)]" />
+                                            </motion.div>
+                                        )}
+                                    </div>
                                 );
                             })}
                         </motion.nav>
@@ -227,19 +253,12 @@ export function Header() {
                                 <Link
                                     href="#contact"
                                     className={`inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-medium text-white shadow-lg transition-all ${activeSection === 'contact'
-                                        ? "bg-blue-600 ring-2 ring-blue-400 ring-offset-2 dark:ring-offset-slate-900"
+                                        ? "bg-blue-600 ring-2 ring-blue-400 ring-offset-2 dark:ring-offset-slate-900 shadow-blue-500/25"
                                         : "bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 hover:from-slate-800 hover:to-slate-600 dark:hover:from-blue-700 dark:hover:to-blue-800"
                                         }`}
                                 >
                                     <span>Contact</span>
-                                    <motion.span
-                                        initial={{ x: 0 }}
-                                        whileHover={{ x: 3 }}
-                                        transition={{ duration: 0.2 }}
-                                        className="inline-block ml-1"
-                                    >
-                                        <ChevronRight className="h-3 w-3" />
-                                    </motion.span>
+                                    <ChevronRight className="ml-1 h-3 w-3" />
                                 </Link>
                             </motion.div>
 
@@ -300,13 +319,19 @@ export function Header() {
                                             <Link
                                                 href={item.href}
                                                 onClick={item.id === "" ? handleHomeClick : () => setIsMenuOpen(false)}
-                                                className={`flex items-center justify-between px-4 py-3 text-base font-medium rounded-xl transition-colors ${activeSection === item.id
-                                                    ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white"
-                                                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800"
+                                                className={`flex items-center justify-between px-4 py-3 text-base font-medium rounded-xl transition-all duration-300 ${activeSection === item.id
+                                                    ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white translate-x-2"
+                                                    : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1"
                                                     }`}
                                             >
                                                 {item.name}
-                                                {activeSection === item.id && <ChevronRight className="h-4 w-4 opacity-50" />}
+                                                {activeSection === item.id && (
+                                                    <motion.div
+                                                        initial={{ scale: 0 }}
+                                                        animate={{ scale: 1 }}
+                                                        className="h-2 w-2 rounded-full bg-blue-600 dark:bg-blue-400 shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+                                                    />
+                                                )}
                                             </Link>
                                         </motion.div>
                                     ))}
