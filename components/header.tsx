@@ -39,7 +39,6 @@ export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState("");
 
-    // --- NOU: State pentru efectul de "Fluid Hover" ---
     const [hoveredId, setHoveredId] = useState<string | null>(null);
 
     const { scrollY } = useScroll();
@@ -182,11 +181,9 @@ export function Header() {
                             </Link>
                         </motion.div>
 
-                        {/* --- MENIU DESKTOP CU ANIMATIE FLUIDĂ --- */}
                         <motion.nav
                             variants={itemVariants}
                             className="hidden md:flex items-center gap-1"
-                            // Când mouse-ul iese din zona meniului, resetăm hover-ul
                             onMouseLeave={() => setHoveredId(null)}
                         >
                             {menuItems.map((item) => {
@@ -195,7 +192,6 @@ export function Header() {
                                     <div
                                         key={item.name}
                                         className="relative"
-                                        // Când mouse-ul intră pe un item, setăm ID-ul hoveruit
                                         onMouseEnter={() => setHoveredId(item.id)}
                                     >
                                         <Link
@@ -209,7 +205,6 @@ export function Header() {
                                             {item.name}
                                         </Link>
 
-                                        {/* EFECTUL DE HOVER (PILULA FLUIDĂ) */}
                                         {hoveredId === item.id && (
                                             <motion.div
                                                 layoutId="nav-pill"
@@ -225,7 +220,6 @@ export function Header() {
                                             />
                                         )}
 
-                                        {/* EFECTUL DE ACTIV (DOT STRĂLUCITOR) */}
                                         {isActive && (
                                             <motion.div
                                                 layoutId="nav-active-dot"

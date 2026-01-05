@@ -1,6 +1,5 @@
 @import "tailwindcss";
 
-/* --- IMPORTAT: Această linie forțează Tailwind să asculte clasa .dark --- */
 @variant dark (&:where(.dark, .dark *));
 
 @theme inline {
@@ -13,15 +12,11 @@
 :root {
   --background: #ffffff;
   --foreground: #0f172a;
-  /* Slate 900 */
 }
 
-/* Stiluri aplicate când clasa .dark este prezentă */
 .dark {
   --background: #020617;
-  /* Slate 950 */
   --foreground: #f8fafc;
-  /* Slate 50 */
 }
 
 body {
@@ -41,7 +36,6 @@ body {
     opacity: 0;
   }
 
-  /* --- NOU: Clasa necesară pentru efectul 3D de pe cardul de testimonial --- */
   .perspective-1000 {
     perspective: 1000px;
   }
@@ -69,7 +63,6 @@ body {
   }
 }
 
-/* --- NOU: Animația pentru Textul cu Gradient din Hero Section --- */
 @keyframes shimmer {
   0% {
     background-position: 0% 50%;

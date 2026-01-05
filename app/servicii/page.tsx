@@ -8,16 +8,14 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 
-// --- DATA: Structurată pe baza textului furnizat de tine ---
 const servicesData = [
     {
         id: "societati",
-        title: "Societăți, Asociații și Fundații",
+        title: "Societăți, asociații și fundații",
         icon: Building2,
         color: "text-blue-500",
         bg: "bg-blue-500/10",
         border: "border-blue-500/20",
-        // Text adaptat din sursa ta:
         description: "De la înființarea până la lichidarea societății comerciale sau a ONG-ului, echipa noastră specializată îți este alături în toate etapele juridice.",
         content: (
             <div className="space-y-6 text-slate-600 dark:text-slate-300">
@@ -33,10 +31,10 @@ const servicesData = [
                         Redactăm statutul și actele necesare pentru dobândirea personalității juridice, inclusiv:
                     </p>
                     <ul className="grid sm:grid-cols-2 gap-3 text-sm">
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Redactare Statut și Act Constitutiv</li>
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Rezervare denumire la Ministerul Justiției</li>
+                        <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Redactare statut și act constitutiv</li>
+                        <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Rezervare denumire la ministerul justiției</li>
                         <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Stabilire sediu și patrimoniu inițial</li>
-                        <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Reprezentare la Judecătorie</li>
+                        <li className="flex gap-2"><div className="w-1.5 h-1.5 mt-2 bg-blue-500 rounded-full" /> Reprezentare la judecătorie</li>
                     </ul>
                 </div>
             </div>
@@ -44,14 +42,14 @@ const servicesData = [
     },
     {
         id: "cetatenie",
-        title: "Cetățenie și Migrație",
+        title: "Cetățenie și migrație",
         icon: Globe2,
         color: "text-emerald-500",
         bg: "bg-emerald-500/10",
         border: "border-emerald-500/20",
         description: "Gestionăm procedurile complexe privind regimul străinilor în România, obținerea sau redobândirea cetățeniei.",
         features: [
-            "Redobândirea cetăţeniei române (dosare complete)",
+            "Redobândirea cetățeniei române (dosare complete)",
             "Obținerea avizelor de muncă și a permiselor de ședere",
             "Asistență în proceduri de azil și migrație",
             "Vize de scurtă și lungă ședere"
@@ -59,14 +57,14 @@ const servicesData = [
     },
     {
         id: "litigii",
-        title: "Litigii Civile și Comerciale",
+        title: "Litigii civile și comerciale",
         icon: Scale,
         color: "text-amber-500",
         bg: "bg-amber-500/10",
         border: "border-amber-500/20",
         description: "Te reprezentăm în instanță pentru recuperarea drepturilor tale, fie că vorbim de creanțe neîncasate sau dispute contractuale.",
         features: [
-            "Recuperări de creanțe și Executare silită",
+            "Recuperări de creanțe și executare silată",
             "Contestații la executare și clauze abuzive",
             "Proceduri de insolvență și faliment",
             "Litigii imobiliare și revendicări"
@@ -74,7 +72,7 @@ const servicesData = [
     },
     {
         id: "penal",
-        title: "Drept Penal",
+        title: "Drept penal",
         icon: Gavel,
         color: "text-red-500",
         bg: "bg-red-500/10",
@@ -89,7 +87,7 @@ const servicesData = [
     },
     {
         id: "familie",
-        title: "Familie și Muncă",
+        title: "Familie și muncă",
         icon: Users,
         color: "text-purple-500",
         bg: "bg-purple-500/10",
@@ -104,7 +102,7 @@ const servicesData = [
     },
     {
         id: "energie",
-        title: "Energie Regenerabilă & GDPR",
+        title: "Energie regenerabilă & GDPR",
         icon: Zap,
         color: "text-cyan-500",
         bg: "bg-cyan-500/10",
@@ -207,7 +205,7 @@ export default function ServicesPage() {
                         {/* Quick Contact Widget */}
                         <div className="mt-8 p-6 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/20 rounded-full blur-[40px] -mr-16 -mt-16 transition-opacity group-hover:opacity-100"></div>
-                            <h4 className="font-bold text-lg mb-2 relative z-10">Consultanță Inițială</h4>
+                            <h4 className="font-bold text-lg mb-2 relative z-10">Consultanță inițială</h4>
                             <p className="text-sm text-slate-400 mb-6 relative z-10">
                                 Oferă-ne detalii despre problema ta și te ajutăm să alegi direcția corectă.
                             </p>

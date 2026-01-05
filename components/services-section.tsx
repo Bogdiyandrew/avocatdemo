@@ -73,7 +73,6 @@ const services = [
     },
 ];
 
-// FIX 1: Am adăugat tipul ': Variants' pentru a repara eroarea TypeScript cu 'ease'
 const cardVariants: Variants = {
     hidden: {
         opacity: 0,
@@ -87,7 +86,6 @@ const cardVariants: Variants = {
         transition: {
             duration: 0.4,
             delay: index * 0.1,
-            // Acum TypeScript știe că acesta este un Easing valid (Cubic Bezier)
             ease: [0.25, 0.1, 0.25, 1]
         }
     })
@@ -107,8 +105,6 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
                 custom={index}
                 whileHover={{ y: -5, transition: { duration: 0.2 } }}
 
-                // FIX 2: Am șters 'transition-all duration-500' și am lăsat doar 'transition-shadow duration-300'
-                // pentru a elimina conflictul CSS și flash-ul
                 className={`
                      group relative overflow-hidden rounded-3xl h-full cursor-pointer 
                     transition-shadow duration-300

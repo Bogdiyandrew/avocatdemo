@@ -8,7 +8,6 @@ export function Footer() {
 
     return (
         <footer className="relative bg-slate-950 border-t border-slate-800 pt-16 pb-8 overflow-hidden font-sans">
-            {/* Background Pattern - Subtil, ca în secțiunea Despre */}
             <div className="absolute inset-0 w-full h-full opacity-[0.03] pointer-events-none"
                 style={{
                     backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)',
@@ -19,7 +18,6 @@ export function Footer() {
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
 
-                    {/* COL 1: Brand & Intro */}
                     <div className="space-y-6">
                         <div className="flex items-center gap-2">
                             <div className="bg-white text-slate-950 p-1.5 rounded-lg">
@@ -36,7 +34,6 @@ export function Footer() {
                         </div>
                     </div>
 
-                    {/* COL 2: Navigație */}
                     <div>
                         <h3 className="text-white font-semibold mb-6">Navigație</h3>
                         <ul className="space-y-3">
@@ -48,7 +45,6 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* COL 3: Arii de practică (Link-uri directe) */}
                     <div>
                         <h3 className="text-white font-semibold mb-6">Expertiză</h3>
                         <ul className="space-y-3">
@@ -60,7 +56,6 @@ export function Footer() {
                         </ul>
                     </div>
 
-                    {/* COL 4: Contact Info */}
                     <div>
                         <h3 className="text-white font-semibold mb-6">Contact</h3>
                         <ul className="space-y-4">
@@ -92,7 +87,6 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* Bottom Bar: Copyright & Legal */}
                 <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
                     <p>© {currentYear} AvocatDemo. Toate drepturile rezervate.</p>
                     <div className="flex gap-6">
@@ -111,8 +105,6 @@ export function Footer() {
         </footer>
     );
 }
-
-// Componente mici ajutătoare pentru a păstra codul curat
 
 function FooterLink({ href, children }: { href: string, children: React.ReactNode }) {
     return (

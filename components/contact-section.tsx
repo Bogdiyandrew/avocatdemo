@@ -8,7 +8,6 @@ export function ContactSection() {
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Simulare trimitere
         setFormStatus("success");
         setTimeout(() => setFormStatus("idle"), 3000);
     };
@@ -18,7 +17,6 @@ export function ContactSection() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-24">
 
-                    {/* Coloana Stânga: Info & Contact Direct */}
                     <div className="space-y-8">
                         <div>
                             <h2 className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-4xl mb-4">
@@ -30,7 +28,6 @@ export function ContactSection() {
                         </div>
 
                         <div className="space-y-6">
-                            {/* Card Telefon */}
                             <a href="tel:0722xxxxxx" className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
                                     <Phone className="h-6 w-6" />
@@ -41,7 +38,6 @@ export function ContactSection() {
                                 </div>
                             </a>
 
-                            {/* Card Email */}
                             <a href="mailto:contact@avocatdemo.ro" className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
                                     <Mail className="h-6 w-6" />
@@ -52,7 +48,6 @@ export function ContactSection() {
                                 </div>
                             </a>
 
-                            {/* Card Adresă */}
                             <div className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400">
                                     <MapPin className="h-6 w-6" />
@@ -64,7 +59,6 @@ export function ContactSection() {
                             </div>
                         </div>
 
-                        {/* Notă de confidențialitate */}
                         <div className="flex gap-3 items-start p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30">
                             <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                             <p className="text-sm text-blue-800 dark:text-blue-300">
@@ -73,12 +67,11 @@ export function ContactSection() {
                         </div>
                     </div>
 
-                    {/* Coloana Dreapta: Formularul */}
                     <div className="bg-white dark:bg-slate-950 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
-                                    <label htmlFor="nume" className="text-sm font-semibold text-slate-900 dark:text-slate-200">Nume Complet</label>
+                                    <label htmlFor="nume" className="text-sm font-semibold text-slate-900 dark:text-slate-200">Nume complet</label>
                                     <input required id="nume" placeholder="Ion Popescu" className="w-full h-12 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white" />
                                 </div>
                                 <div className="space-y-2">
@@ -88,23 +81,23 @@ export function ContactSection() {
                             </div>
 
                             <div className="space-y-2">
-                                <label htmlFor="tip-problema" className="text-sm font-semibold text-slate-900 dark:text-slate-200">Tipul de Problemă</label>
+                                <label htmlFor="tip-problema" className="text-sm font-semibold text-slate-900 dark:text-slate-200">Tipul de problemă</label>
                                 <div className="relative">
-                                    {/* FIX AICI: am adaugat defaultValue="" și am scos selected de pe option */}
+
                                     <select
                                         id="tip-problema"
                                         defaultValue=""
                                         className="w-full h-12 px-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:ring-2 focus:ring-blue-500 outline-none transition-all dark:text-white appearance-none cursor-pointer"
                                     >
                                         <option value="" disabled>Alegeți domeniul...</option>
-                                        <option value="penal">Drept Penal (Urgență)</option>
+                                        <option value="penal">Drept penal (urgență)</option>
                                         <option value="familie">Divorț / Familie</option>
                                         <option value="comercial">Comercial / Firme</option>
-                                        <option value="civil">Litigii Civile / Imobiliare</option>
+                                        <option value="civil">Litigii civile / Imobiliare</option>
                                         <option value="altul">Altă problemă</option>
                                     </select>
 
-                                    {/* Săgeată custom pentru select */}
+
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                                     </div>
@@ -123,7 +116,7 @@ export function ContactSection() {
                                 {formStatus === "success" ? (
                                     <>
                                         <CheckCircle2 className="w-5 h-5" />
-                                        Mesaj Trimis!
+                                        Mesaj trimis!
                                     </>
                                 ) : (
                                     <>

@@ -7,22 +7,19 @@ import { Button } from '@/components/ui/button';
 import { Clock, Award, Phone, CheckCircle2, Video } from 'lucide-react';
 import { motion, useScroll, useTransform, useInView, Variants, useMotionValue, animate } from 'framer-motion';
 
-// --- AICI ESTE MODIFICAREA PRINCIPALĂ ---
 function CounterAnimation({ target, suffix = '' }: { target: number; suffix?: string }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
 
-    // Folosim MotionValue pentru performanță maximă (nu randează componenta la fiecare număr)
     const count = useMotionValue(0);
-    // Rotunjim valoarea ca să nu afișeze zecimale
     const rounded = useTransform(count, (latest) => Math.round(latest));
 
     useEffect(() => {
         if (isInView) {
             const controls = animate(count, target, {
-                duration: 4,      // Durata animației (4 secunde = slow/lent)
-                delay: 2,         // Așteaptă 2 secunde înainte să înceapă
-                ease: "easeOut",  // Încetinește frumos spre final (smooth)
+                duration: 4,
+                delay: 2,
+                ease: "easeOut",
             });
 
             return controls.stop;
@@ -36,7 +33,6 @@ function CounterAnimation({ target, suffix = '' }: { target: number; suffix?: st
         </div>
     );
 }
-// ----------------------------------------
 
 export function HeroSection() {
     const heroImages = [
@@ -215,7 +211,6 @@ export function HeroSection() {
                                 <Award className="h-5 w-5 text-amber-400" />
                             </div>
                             <div>
-                                {/* Aici se va folosi noua animație cu delay */}
                                 <CounterAnimation target={487} />
                                 <div className="text-xs uppercase tracking-wide text-slate-400">cazuri câștigate</div>
                             </div>

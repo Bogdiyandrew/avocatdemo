@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider"; // Import nou
+import { ThemeProvider } from "@/components/theme-provider";
+import { Header } from "@/components/header";
+import { Footer } from "@/components/footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,7 +26,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Adaugăm suppressHydrationWarning pe html pentru a evita erorile next-themes
     <html lang="ro" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
@@ -35,7 +36,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <div className="min-h-screen flex flex-col font-sans text-slate-800 dark:text-slate-200 bg-white dark:bg-slate-950 transition-colors duration-300">
+            <Header />
+
+            <main className="flex-1">
+              {children}
+            </main>
+
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>

@@ -4,7 +4,6 @@ import { useRef, useEffect } from "react";
 import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 import { Award, BookOpen, Scale, CheckCircle2, ShieldCheck, LucideIcon } from "lucide-react";
 
-// Am tipizat corect props-urile
 interface CounterProps {
     target: number;
     suffix?: string;
@@ -34,7 +33,6 @@ function CounterAnimation({ target, suffix = '' }: CounterProps) {
     );
 }
 
-// Am definit tipurile pentru StatCard pentru a scăpa de 'any'
 interface StatCardProps {
     icon: LucideIcon;
     target: number;
@@ -50,11 +48,9 @@ function StatCard({ icon: Icon, target, suffix, label, colorClass, className = "
         <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }} // Am ajustat margin pentru declanșare mai rapidă
+            viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.6, delay: delay, ease: "easeOut" }}
             whileHover={{ y: -5, transition: { duration: 0.2 } }}
-
-            // FIX: Am înlocuit 'transition-all' cu 'transition-colors'
             className={`
                 p-6 rounded-2xl border border-white/10 
                 bg-white/5 backdrop-blur-md
@@ -84,7 +80,6 @@ export function AboutSection() {
     return (
         <section id="despre" className="relative py-32 bg-slate-950 overflow-hidden text-white">
 
-            {/* Background Animations - Rămân neschimbate, sunt ok */}
             <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
                 <motion.div
                     animate={{
