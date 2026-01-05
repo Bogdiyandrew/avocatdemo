@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Scale, Menu, X, ChevronRight, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
@@ -37,35 +38,46 @@ function ThemeToggle() {
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-    const [activeSection, setActiveSection] = useState("");
 
+    // Pathname pentru a ști pe ce pagină suntem
+    const pathname = usePathname();
+    const [activeSection, setActiveSection] = useState("");
     const [hoveredId, setHoveredId] = useState<string | null>(null);
 
     const { scrollY } = useScroll();
     const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
     const headerY = useTransform(scrollY, [0, 100], [0, -8]);
 
-    const handleHomeClick = (e: React.MouseEvent) => {
-        if (window.location.pathname === '/') {
-            e.preventDefault();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-            if (window.location.hash) {
-                history.replaceState(null, '', window.location.pathname);
-            }
+    // 1. Setăm secțiunea activă în funcție de URL
+    useEffect(() => {
+        if (pathname === "/") {
+            // Pe homepage, dacă suntem sus de tot, resetăm
+            if (window.scrollY < 50) setActiveSection("");
+        } else if (pathname === "/desprenoi") {
+            setActiveSection("desprenoi");
+        } else if (pathname === "/servicii") {
+            setActiveSection("servicii");
+        } else if (pathname === "/blog") {
+            setActiveSection("blog");
+        } else if (pathname === "/programare") {
+            setActiveSection("programare");
         }
-        setIsMenuOpen(false);
-    };
+    }, [pathname]);
 
+    // 2. Scroll Spy (Doar pentru Homepage)
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
+
+            // Dacă nu suntem pe homepage, ieșim (nu vrem scroll spy)
+            if (pathname !== "/") return;
 
             if (window.scrollY < 50) {
                 if (window.location.hash) {
                     history.replaceState(null, '', window.location.pathname);
                 }
                 setActiveSection("");
+                return;
             }
 
             const sections = ['serv', 'despre', 'contact'];
@@ -80,7 +92,7 @@ export function Header() {
                     }
                 }
             }
-            if (window.scrollY >= 50) {
+            if (current) {
                 setActiveSection(current);
             }
         };
@@ -88,7 +100,7 @@ export function Header() {
         window.addEventListener("scroll", handleScroll);
         handleScroll();
         return () => window.removeEventListener("scroll", handleScroll);
-    }, []);
+    }, [pathname]);
 
     useEffect(() => {
         const handleResize = () => {
@@ -108,6 +120,18 @@ export function Header() {
         }
         return () => { document.body.style.overflow = 'unset'; };
     }, [isMenuOpen]);
+
+    const handleHomeClick = (e: React.MouseEvent) => {
+        if (pathname === '/') {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (window.location.hash) {
+                history.replaceState(null, '', window.location.pathname);
+            }
+        }
+        setIsMenuOpen(false);
+    };
 
     const menuItems = [
         { name: "Acasă", href: "/", id: "" },
@@ -181,6 +205,7 @@ export function Header() {
                             </Link>
                         </motion.div>
 
+                        {/* Desktop Navigation */}
                         <motion.nav
                             variants={itemVariants}
                             className="hidden md:flex items-center gap-1"
@@ -196,7 +221,7 @@ export function Header() {
                                     >
                                         <Link
                                             href={item.href}
-                                            onClick={item.id === "" ? handleHomeClick : undefined}
+                                            onClick={item.id === "" && pathname === "/" ? handleHomeClick : undefined}
                                             className={`relative z-10 block px-4 py-2 text-sm font-medium transition-colors duration-200 ${isActive
                                                 ? "text-slate-900 dark:text-white"
                                                 : "text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
@@ -233,6 +258,7 @@ export function Header() {
                             })}
                         </motion.nav>
 
+                        {/* Right Actions */}
                         <motion.div
                             variants={itemVariants}
                             className="flex items-center gap-3"
@@ -245,7 +271,7 @@ export function Header() {
                                 className="hidden sm:block"
                             >
                                 <Link
-                                    href="#contact"
+                                    href="/#contact" // FIX: Folosim /#contact pentru a merge la root
                                     className={`inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-medium text-white shadow-lg transition-all ${activeSection === 'contact'
                                         ? "bg-blue-600 ring-2 ring-blue-400 ring-offset-2 dark:ring-offset-slate-900 shadow-blue-500/25"
                                         : "bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 hover:from-slate-800 hover:to-slate-600 dark:hover:from-blue-700 dark:hover:to-blue-800"
@@ -312,7 +338,7 @@ export function Header() {
                                         >
                                             <Link
                                                 href={item.href}
-                                                onClick={item.id === "" ? handleHomeClick : () => setIsMenuOpen(false)}
+                                                onClick={() => setIsMenuOpen(false)}
                                                 className={`flex items-center justify-between px-4 py-3 text-base font-medium rounded-xl transition-all duration-300 ${activeSection === item.id
                                                     ? "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white translate-x-2"
                                                     : "text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:translate-x-1"
@@ -338,7 +364,7 @@ export function Header() {
                                         whileTap={{ scale: 0.98 }}
                                     >
                                         <Link
-                                            href="#contact"
+                                            href="/#contact" // FIX: Folosim /#contact și pe mobil
                                             onClick={() => setIsMenuOpen(false)}
                                             className="flex items-center justify-center w-full mt-4 h-12 rounded-xl bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 text-white font-medium shadow-lg"
                                         >
