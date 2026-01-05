@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Calendar, Clock, ChevronRight, User, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// --- MOCK DATA: Aici ar veni datele din baza de date sau CMS ---
 const BLOG_POSTS = [
     {
         id: 1,
@@ -16,7 +15,7 @@ const BLOG_POSTS = [
         category: "Dreptul Familiei",
         author: "Av. Mihai Popescu",
         readTime: "6 min",
-        image: "/services/2.jpeg", // Folosim imagini existente
+        image: "/services/2.jpeg",
         slug: "ghid-partaj-judiciar"
     },
     {
@@ -80,7 +79,7 @@ export default function BlogPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 pt-24 pb-20">
 
-            {/* HEADER SECTION */}
+
             <section className="container mx-auto px-4 md:px-6 mb-16 text-center max-w-4xl">
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
@@ -100,7 +99,7 @@ export default function BlogPage() {
                 </motion.p>
             </section>
 
-            {/* BLOG GRID */}
+
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {BLOG_POSTS.map((post, index) => (
@@ -112,7 +111,7 @@ export default function BlogPage() {
                             transition={{ delay: index * 0.1 }}
                             className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xs hover:shadow-xl hover:shadow-blue-900/5 dark:hover:shadow-blue-900/10 transition-all duration-300"
                         >
-                            {/* Image Container */}
+
                             <div className="relative h-56 overflow-hidden">
                                 <Image
                                     src={post.image}
@@ -126,9 +125,9 @@ export default function BlogPage() {
                                 </div>
                             </div>
 
-                            {/* Content */}
+
                             <div className="flex-1 p-6 flex flex-col">
-                                {/* Meta Data */}
+
                                 <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4">
                                     <span className="flex items-center gap-1">
                                         <Calendar className="w-3.5 h-3.5" />
@@ -150,7 +149,7 @@ export default function BlogPage() {
                                     {post.excerpt}
                                 </p>
 
-                                {/* Footer Card */}
+
                                 <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                         <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500">

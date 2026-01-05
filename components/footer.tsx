@@ -48,11 +48,11 @@ export function Footer() {
                     <div>
                         <h3 className="text-white font-semibold mb-6">Expertiză</h3>
                         <ul className="space-y-3">
-                            <FooterLink href="/servicii#penal">Drept Penal</FooterLink>
-                            <FooterLink href="/servicii#familie">Dreptul Familiei</FooterLink>
-                            <FooterLink href="/servicii#comercial">Drept Comercial</FooterLink>
+                            <FooterLink href="/servicii#penal">Drept penal</FooterLink>
+                            <FooterLink href="/servicii#familie">Dreptul familiei</FooterLink>
+                            <FooterLink href="/servicii#comercial">Drept comercial</FooterLink>
                             <FooterLink href="/servicii#imobiliare">Imobiliare</FooterLink>
-                            <FooterLink href="/servicii#daune">Malpraxis & Daune</FooterLink>
+                            <FooterLink href="/servicii#daune">Malpraxis & daune</FooterLink>
                         </ul>
                     </div>
 
@@ -91,10 +91,10 @@ export function Footer() {
                     <p>© {currentYear} AvocatDemo. Toate drepturile rezervate.</p>
                     <div className="flex gap-6">
                         <Link href="/termeni" className="hover:text-slate-300 transition-colors">
-                            Termeni și Condiții
+                            Termeni și condiții
                         </Link>
                         <Link href="/confidentialitate" className="hover:text-slate-300 transition-colors">
-                            Politica de Confidențialitate
+                            Politica de confidențialitate
                         </Link>
                         <Link href="/cookies" className="hover:text-slate-300 transition-colors">
                             Cookies

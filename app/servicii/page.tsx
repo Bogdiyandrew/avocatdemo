@@ -204,7 +204,7 @@ export default function ServicesPage() {
 
                         {/* Quick Contact Widget */}
                         <div className="mt-8 p-6 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/20 rounded-full blur-[40px] -mr-16 -mt-16 transition-opacity group-hover:opacity-100"></div>
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl -mr-16 -mt-16 transition-opacity group-hover:opacity-100"></div>
                             <h4 className="font-bold text-lg mb-2 relative z-10">Consultanță inițială</h4>
                             <p className="text-sm text-slate-400 mb-6 relative z-10">
                                 Oferă-ne detalii despre problema ta și te ajutăm să alegi direcția corectă.
