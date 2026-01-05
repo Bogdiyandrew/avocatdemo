@@ -112,8 +112,8 @@ export function Header() {
 
     const menuItems = [
         { name: "Acasă", href: "/", id: "" },
-        { name: "Despre noi", href: "/#desprenoi", id: "desprenoi" },
-        { name: "Servicii", href: "/#serviciilenoastre", id: "serviciilenoastre" },
+        { name: "Despre noi", href: "/desprenoi", id: "desprenoi" },
+        { name: "Servicii", href: "/serviciilenoastre", id: "serviciilenoastre" },
         { name: "Blog juridic", href: "/blog", id: "blog" },
         { name: "Programare", href: "/programare", id: "programare" },
     ];

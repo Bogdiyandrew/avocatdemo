@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 import { Gavel, Users, Briefcase, Scale, FileText, ShieldAlert, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
@@ -73,6 +73,26 @@ const services = [
     },
 ];
 
+// FIX 1: Am adăugat tipul ': Variants' pentru a repara eroarea TypeScript cu 'ease'
+const cardVariants: Variants = {
+    hidden: {
+        opacity: 0,
+        y: 20,
+        scale: 0.98
+    },
+    visible: (index: number) => ({
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+            duration: 0.4,
+            delay: index * 0.1,
+            // Acum TypeScript știe că acesta este un Easing valid (Cubic Bezier)
+            ease: [0.25, 0.1, 0.25, 1]
+        }
+    })
+};
+
 function ServiceCard({ service, index }: { service: typeof services[0]; index: number }) {
     return (
         <Link
@@ -80,24 +100,20 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
             className={`block h-full ${service.className}`}
         >
             <motion.div
-                initial={{ opacity: 0, y: 20, scale: 0.98 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{
-                    once: true,
-                    amount: 0.1,
-                    margin: "-100px"
-                }}
-                transition={{
-                    duration: 0.4,
-                    delay: index * 0.08,
-                    ease: [0.25, 0.1, 0.25, 1]
-                }}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2, margin: "0px" }}
+                custom={index}
+                whileHover={{ y: -5, transition: { duration: 0.2 } }}
+
+                // FIX 2: Am șters 'transition-all duration-500' și am lăsat doar 'transition-shadow duration-300'
+                // pentru a elimina conflictul CSS și flash-ul
                 className={`
                      group relative overflow-hidden rounded-3xl h-full cursor-pointer 
-                    transition-all duration-500
+                    transition-shadow duration-300
                     border border-slate-200 dark:border-slate-800
                     hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-slate-900/50
-                    hover:-translate-y-1
                     will-change-transform
                 `}
             >
@@ -115,14 +131,14 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
                 <div className="relative h-full p-6 sm:p-8 flex flex-col z-10">
                     <div className="flex justify-between items-start mb-6">
                         <div className={`
-                            p-3 rounded-2xl border shadow-sm transition-colors
+                            p-3 rounded-2xl border shadow-sm transition-colors duration-300
                             bg-white/80 backdrop-blur-sm border-slate-100
                             dark:bg-slate-800/80 dark:border-slate-700
                         `}>
                             <service.icon className={`w-6 h-6 ${service.iconColor}`} />
                         </div>
 
-                        <div className="p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-400 group-hover:text-blue-600 dark:group-hover:text-white transition-colors">
+                        <div className="p-2 rounded-full bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm text-slate-400 group-hover:text-blue-600 dark:group-hover:text-white transition-colors duration-300">
                             <ArrowUpRight className="w-5 h-5" />
                         </div>
                     </div>
@@ -146,7 +162,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
                                     text-slate-700 dark:text-slate-300
                                     border border-slate-200/50 dark:border-slate-700/50
                                     group-hover:border-${service.iconColor.split('-')[1]}-500/50
-                                    transition-colors
+                                    transition-colors duration-300
                                 `}
                             >
                                 {tag}
