@@ -177,7 +177,7 @@ function ServiceCard({ service, index }: { service: typeof services[0]; index: n
 
 export function ServicesSection() {
     return (
-        <section id="servicii" className="relative py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
+        <section id="serv" className="relative py-24 bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-size-[40px_40px] dark:opacity-30" />
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">

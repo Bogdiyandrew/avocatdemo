@@ -69,7 +69,7 @@ export function Header() {
                 setActiveSection("");
             }
 
-            const sections = ['servicii', 'despre', 'contact'];
+            const sections = ['serv', 'despre', 'contact'];
             let current = '';
 
             for (const id of sections) {
@@ -113,7 +113,7 @@ export function Header() {
     const menuItems = [
         { name: "Acasă", href: "/", id: "" },
         { name: "Despre noi", href: "/desprenoi", id: "desprenoi" },
-        { name: "Servicii", href: "/serviciilenoastre", id: "serviciilenoastre" },
+        { name: "Servicii", href: "/servicii", id: "servicii" },
         { name: "Blog juridic", href: "/blog", id: "blog" },
         { name: "Programare", href: "/programare", id: "programare" },
     ];

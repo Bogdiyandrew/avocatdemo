@@ -157,28 +157,28 @@ export function AboutSection() {
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
                             </span>
                             <span className="text-xs font-semibold tracking-wider uppercase text-slate-300">
-                                Experiență și Devotament
+                                Excelență juridică
                             </span>
                         </div>
 
                         <h2 className="text-4xl md:text-5xl font-bold tracking-tight leading-[1.1]">
-                            Nu suntem doar avocați. <br />
-                            {/* FIX: Am corectat 'bg-linear-to-r' în 'bg-gradient-to-r' */}
+                            Când miza este mare, <br />
                             <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-amber-500 to-amber-200 bg-size-[200%_auto] animate-[shimmer_4s_linear_infinite]">
-                                Suntem scutul tău legal.
+                                ai nevoie de o apărare pe măsură.
                             </span>
                         </h2>
 
                         <p className="text-slate-300 text-lg leading-relaxed font-light">
-                            În cei peste <strong className="text-white">15 ani de activitate</strong>, am învățat că legea nu este doar despre paragrafe, ci despre viețile oamenilor.
-                            Fie că este vorba despre libertatea ta, familia ta sau afacerea ta, abordăm fiecare dosar cu o strategie meticuloasă și o combativitate calculată.
+                            Justiția nu e despre noroc, ci despre pregătire. Cu o experiență de peste
+                            <strong className="text-white"> 15 ani în instanță</strong>, am învățat că fiecare detaliu contează.
+                            Oferim acea combinație rară de cunoaștere a legii și tenacitate necesară pentru a proteja ceea ce contează pentru tine: libertatea, familia sau afacerea.
                         </p>
 
                         <ul className="space-y-4 pt-2">
                             {[
                                 "Membri în Baroul București din 2008",
-                                "Abordare transparentă a onorariilor (Fără costuri ascunse)",
-                                "Disponibilitate extinsă pentru urgențe penale"
+                                "Onorarii transparente, stabilite de la început",
+                                "Disponibilitate imediată pentru urgențe"
                             ].map((item, index) => (
                                 <motion.li
                                     key={index}
@@ -196,7 +196,6 @@ export function AboutSection() {
                             ))}
                         </ul>
                     </motion.div>
-
                     <div className="grid grid-cols-2 gap-5 perspective-1000">
                         <StatCard
                             icon={Scale}
