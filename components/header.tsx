@@ -38,8 +38,6 @@ function ThemeToggle() {
 export function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
-
-    // Pathname pentru a ști pe ce pagină suntem
     const pathname = usePathname();
     const [activeSection, setActiveSection] = useState("");
     const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -48,10 +46,8 @@ export function Header() {
     const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
     const headerY = useTransform(scrollY, [0, 100], [0, -8]);
 
-    // 1. Setăm secțiunea activă în funcție de URL
     useEffect(() => {
         if (pathname === "/") {
-            // Pe homepage, dacă suntem sus de tot, resetăm
             if (window.scrollY < 50) setActiveSection("");
         } else if (pathname === "/desprenoi") {
             setActiveSection("desprenoi");
@@ -64,12 +60,10 @@ export function Header() {
         }
     }, [pathname]);
 
-    // 2. Scroll Spy (Doar pentru Homepage)
     useEffect(() => {
         const handleScroll = () => {
             setIsScrolled(window.scrollY > 20);
 
-            // Dacă nu suntem pe homepage, ieșim (nu vrem scroll spy)
             if (pathname !== "/") return;
 
             if (window.scrollY < 50) {
@@ -185,7 +179,6 @@ export function Header() {
                         }`}
                 >
                     <div className="flex h-14 items-center justify-between px-6">
-                        {/* Logo */}
                         <motion.div variants={itemVariants}>
                             <Link
                                 href="/"
@@ -205,7 +198,6 @@ export function Header() {
                             </Link>
                         </motion.div>
 
-                        {/* Desktop Navigation */}
                         <motion.nav
                             variants={itemVariants}
                             className="hidden md:flex items-center gap-1"
@@ -258,7 +250,6 @@ export function Header() {
                             })}
                         </motion.nav>
 
-                        {/* Right Actions */}
                         <motion.div
                             variants={itemVariants}
                             className="flex items-center gap-3"
@@ -271,7 +262,7 @@ export function Header() {
                                 className="hidden sm:block"
                             >
                                 <Link
-                                    href="/#contact" // FIX: Folosim /#contact pentru a merge la root
+                                    href="/#contact"
                                     className={`inline-flex h-9 items-center justify-center rounded-full px-5 text-sm font-medium text-white shadow-lg transition-all ${activeSection === 'contact'
                                         ? "bg-blue-600 ring-2 ring-blue-400 ring-offset-2 dark:ring-offset-slate-900 shadow-blue-500/25"
                                         : "bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 hover:from-slate-800 hover:to-slate-600 dark:hover:from-blue-700 dark:hover:to-blue-800"
@@ -364,7 +355,7 @@ export function Header() {
                                         whileTap={{ scale: 0.98 }}
                                     >
                                         <Link
-                                            href="/#contact" // FIX: Folosim /#contact și pe mobil
+                                            href="/#contact"
                                             onClick={() => setIsMenuOpen(false)}
                                             className="flex items-center justify-center w-full mt-4 h-12 rounded-xl bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 text-white font-medium shadow-lg"
                                         >
