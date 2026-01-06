@@ -194,7 +194,7 @@ export function AboutSection() {
                     <div className="grid grid-cols-2 gap-5 perspective-1000">
                         <StatCard
                             icon={Scale}
-                            target={15}
+                            target={13}
                             suffix="+"
                             label="Ani de Experiență"
                             colorClass="text-blue-400"
@@ -203,7 +203,7 @@ export function AboutSection() {
 
                         <StatCard
                             icon={BookOpen}
-                            target={500}
+                            target={497}
                             suffix="+"
                             label="Dosare Soluționate"
                             colorClass="text-emerald-400"
@@ -213,7 +213,7 @@ export function AboutSection() {
 
                         <StatCard
                             icon={Award}
-                            target={98}
+                            target={96.5}
                             suffix="%"
                             label="Rată de Succes"
                             colorClass="text-amber-400"

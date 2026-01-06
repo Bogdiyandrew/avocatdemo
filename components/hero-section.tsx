@@ -4,33 +4,71 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Clock, Award, Phone, CheckCircle2, Video } from 'lucide-react';
+import { Clock, Award, Phone, Video, ArrowRight } from 'lucide-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTiktok, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { motion, useScroll, useTransform, useInView, Variants, useMotionValue, animate } from 'framer-motion';
 
 function CounterAnimation({ target, suffix = '' }: { target: number; suffix?: string }) {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
-
     const count = useMotionValue(0);
     const rounded = useTransform(count, (latest) => Math.round(latest));
 
     useEffect(() => {
         if (isInView) {
-            const controls = animate(count, target, {
-                duration: 4,
-                delay: 2,
-                ease: "easeOut",
-            });
-
+            const controls = animate(count, target, { duration: 4, delay: 2, ease: "easeOut" });
             return controls.stop;
         }
     }, [isInView, target, count]);
 
     return (
         <div ref={ref} className="text-2xl font-bold text-white flex items-center">
-            <motion.span>{rounded}</motion.span>
-            {suffix}
+            <motion.span>{rounded}</motion.span>{suffix}
         </div>
+    );
+}
+
+function SocialCard({
+    icon,
+    title,
+    href,
+    colorClass,
+    borderColorClass,
+    delay
+}: {
+    icon: any, title: string, href: string, colorClass: string, borderColorClass: string, delay: number
+}) {
+    return (
+        <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: delay, duration: 0.5 }}
+        >
+            <Link href={href} target="_blank" className="group block">
+                <div className={`relative flex items-center gap-4 p-3 pr-6 rounded-2xl 
+                    bg-white/90 dark:bg-slate-950/60 
+                    border border-slate-200 dark:border-white/5 
+                    hover:border-${borderColorClass}/50 
+                    backdrop-blur-xl transition-all duration-500 w-full sm:w-fit 
+                    hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] overflow-hidden`}>
+
+                    <div className={`absolute inset-0 bg-linear-to-r ${colorClass} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
+
+                    <div className="relative flex items-center justify-center w-12 h-12 rounded-xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 group-hover:scale-105 transition-transform duration-500">
+                        <div className={`absolute inset-0 rounded-xl bg-linear-to-br ${colorClass} opacity-20 blur-md group-hover:opacity-40 transition-opacity duration-500`} />
+                        <FontAwesomeIcon icon={icon} className="w-6 h-6 relative z-10 text-slate-700 dark:text-white drop-shadow-lg" />
+                    </div>
+
+                    <div className="relative z-10">
+                        <span className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                            {title}
+                            <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-3 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-slate-500 dark:text-slate-200" />
+                        </span>
+                    </div>
+                </div>
+            </Link>
+        </motion.div>
     );
 }
 
@@ -54,67 +92,35 @@ export function HeroSection() {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) =>
-                prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1
-            );
+            setCurrentImageIndex((prevIndex) => prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1);
         }, 5000);
-
         return () => clearInterval(interval);
     }, [heroImages.length]);
 
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.15, delayChildren: 0.2 }
-        }
+        visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.2 } }
     };
-
     const itemVariants: Variants = {
         hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: { duration: 0.6, ease: "easeOut" }
-        }
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
     };
-
-    const badgeVariants: Variants = {
-        hidden: { opacity: 0, x: -50 },
-        visible: {
-            opacity: 1,
-            x: 0,
-            transition: { duration: 0.8, ease: "easeOut" }
-        }
-    };
-
     const titleVariants: Variants = {
         hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.08, delayChildren: 0.3 }
-        }
+        visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.3 } }
     };
-
     const wordVariants: Variants = {
         hidden: { opacity: 0, y: 50, rotateX: -90 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            rotateX: 0,
-            transition: { duration: 0.8, ease: "easeOut" }
-        }
+        visible: { opacity: 1, y: 0, rotateX: 0, transition: { duration: 0.8, ease: "easeOut" } }
+    };
+    const badgeVariants: Variants = {
+        hidden: { opacity: 0, x: -50 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut" } }
     };
 
     return (
-        <section
-            ref={containerRef}
-            className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-slate-950"
-        >
-            <motion.div
-                style={{ y }}
-                className="absolute inset-0 w-full h-full scale-110 z-0"
-            >
+        <section ref={containerRef} className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 transition-colors duration-500">
+            <motion.div style={{ y }} className="absolute inset-0 w-full h-full scale-110 z-0">
                 {heroImages.map((src, index) => (
                     <motion.div
                         key={src}
@@ -138,103 +144,69 @@ export function HeroSection() {
                 ))}
             </motion.div>
 
-            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-900/80 to-slate-900/40 z-10" />
+            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-900/85 to-slate-900/50 z-10 transition-colors duration-500" />
 
-            <div
-                className="absolute inset-0 z-10 opacity-20 pointer-events-none"
+            <div className="absolute inset-0 z-10 opacity-20 pointer-events-none text-white"
                 style={{
-                    backgroundImage: 'radial-gradient(circle, #ffffff 1px, transparent 1px)',
+                    backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)',
                     backgroundSize: '30px 30px'
                 }}
             />
-            <div className="absolute inset-0 z-10 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(2,6,23,0.4)_100%)] pointer-events-none" />
 
             <motion.div
                 style={{ opacity }}
-                className="container px-4 md:px-6 mx-auto relative z-20 mt-16 sm:mt-0"
+                className="container px-4 md:px-6 mx-auto relative z-20 pt-28 md:pt-32 pb-20"
             >
-                <motion.div
-                    className="max-w-4xl"
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
-                >
-                    <motion.div
-                        variants={badgeVariants}
-                        className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm"
-                    >
+                <motion.div className="max-w-4xl" variants={containerVariants} initial="hidden" animate="visible">
+
+                    <motion.div variants={badgeVariants} className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full bg-slate-800/50 border border-slate-700/50 backdrop-blur-sm shadow-lg">
                         <span className="relative flex h-2 w-2">
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span className="text-xs font-semibold tracking-wider uppercase text-slate-300">Cabinet Autorizat București</span>
+                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-300">Cabinet Autorizat București</span>
                     </motion.div>
 
-                    <motion.h1
-                        variants={titleVariants}
-                        className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-[1.1]"
-                    >
+                    <motion.h1 variants={titleVariants} className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight">
                         <div className="overflow-hidden">
-                            <motion.span variants={wordVariants} className="inline-block mr-4">
-                                Drepturile
-                            </motion.span>
-                            <motion.span variants={wordVariants} className="inline-block mr-4">
-                                tale
-                            </motion.span>
-                            <motion.span variants={wordVariants} className="inline-block">
-                                merită
-                            </motion.span>
+                            <motion.span variants={wordVariants} className="inline-block mr-4">Drepturile</motion.span>
+                            <motion.span variants={wordVariants} className="inline-block mr-4">tale</motion.span>
+                            <motion.span variants={wordVariants} className="inline-block">merită</motion.span>
                         </div>
-
-                        <motion.span
-                            variants={wordVariants}
-                            className="bg-clip-text text-transparent bg-linear-to-r from-amber-200 via-amber-500 to-amber-200 bg-size-[200%_auto] animate-[shimmer_4s_linear_infinite] mt-2 inline-block pb-2"
-                        >
+                        <motion.span variants={wordVariants} className="bg-clip-text text-transparent bg-linear-to-r from-amber-100 via-amber-400 to-amber-100 bg-size-[200%_auto] animate-[shimmer_4s_linear_infinite] mt-2 inline-block pb-2 drop-shadow-sm">
                             o apărare serioasă.
                         </motion.span>
                     </motion.h1>
 
-                    <motion.p
-                        variants={itemVariants}
-                        className="text-xl md:text-2xl text-slate-200 mb-8 max-w-2xl font-light leading-relaxed"
-                    >
-                        De 12 ani câștigăm procese în <strong className="text-white font-medium">București</strong>.
-                        Litigii, contracte, penal — doar rezultate concrete.
+                    <motion.p variants={itemVariants} className="text-lg md:text-2xl text-slate-300 mb-10 max-w-2xl font-light leading-relaxed">
+                        De 12 ani câștigăm procese în <strong className="text-white font-semibold">București</strong>. Litigii, contracte, penal — rezultate concrete, fără compromisuri.
                     </motion.p>
 
-                    <motion.div
-                        variants={itemVariants}
-                        className="flex flex-wrap gap-8 mb-10 text-slate-300"
-                    >
-                        <motion.div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                                <Award className="h-5 w-5 text-amber-400" />
+                    <motion.div variants={itemVariants} className="flex flex-wrap gap-8 mb-12">
+                        <motion.div className="flex items-center gap-4 group">
+                            <div className="p-3 rounded-xl bg-slate-800/50 border border-white/10 group-hover:border-amber-500/30 transition-colors">
+                                <Award className="h-6 w-6 text-amber-400" />
                             </div>
                             <div>
                                 <CounterAnimation target={487} />
-                                <div className="text-xs uppercase tracking-wide text-slate-400">cazuri câștigate</div>
+                                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">cazuri câștigate</div>
                             </div>
                         </motion.div>
-
-                        <motion.div className="flex items-center gap-3">
-                            <div className="p-2 rounded-lg bg-white/5 border border-white/10">
-                                <Clock className="h-5 w-5 text-amber-400" />
+                        <motion.div className="flex items-center gap-4 group">
+                            <div className="p-3 rounded-xl bg-slate-800/50 border border-white/10 group-hover:border-amber-500/30 transition-colors">
+                                <Clock className="h-6 w-6 text-amber-400" />
                             </div>
                             <div>
                                 <CounterAnimation target={2} suffix="h" />
-                                <div className="text-xs uppercase tracking-wide text-slate-400">răspuns programǎri</div>
+                                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">răspuns rapid</div>
                             </div>
                         </motion.div>
                     </motion.div>
 
-                    <motion.div variants={itemVariants} className="flex flex-col gap-6">
+                    <motion.div variants={itemVariants} className="flex flex-col gap-8">
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                <Button
-                                    asChild
-                                    size="lg"
-                                    className="h-14 px-8 bg-red-600 hover:bg-red-700 text-white text-base font-medium shadow-[0_0_40px_-10px_rgba(220,38,38,0.5)] border-0 rounded-xl"
-                                >
+                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                                <Button asChild size="lg" className="w-full sm:w-auto h-16 px-10 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold shadow-[0_0_50px_-12px_rgba(220,38,38,0.6)] border-0 rounded-2xl">
                                     <Link href="tel:+40722xxxxxx">
                                         <Phone className="mr-2 h-5 w-5" />
                                         Urgențe: 0722 xxx xxx
@@ -242,13 +214,8 @@ export function HeroSection() {
                                 </Button>
                             </motion.div>
 
-                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                                <Button
-                                    asChild
-                                    variant="outline"
-                                    size="lg"
-                                    className="h-14 px-8 bg-white/5 hover:bg-white text-white border-white/20 backdrop-blur-md rounded-xl"
-                                >
+                            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
+                                <Button asChild variant="outline" size="lg" className="w-full sm:w-auto h-16 px-10 bg-white/10 hover:bg-white hover:text-slate-900 text-white border-white/20 backdrop-blur-md rounded-2xl transition-all font-medium">
                                     <Link href="/programare">
                                         Programează consultație
                                         <Video className="ml-2 h-5 w-5" />
@@ -257,9 +224,24 @@ export function HeroSection() {
                             </motion.div>
                         </div>
 
-                        <div className="flex items-center gap-2 text-xs font-medium text-emerald-400 bg-emerald-950/30 px-3 py-1.5 rounded-md w-fit border border-emerald-500/20">
-                            <CheckCircle2 className="h-3 w-3" />
-                            Avocat de serviciu disponibil acum
+                        <div className="flex flex-col gap-3 mt-2 sm:mt-0 max-w-md">
+                            <SocialCard
+                                icon={faWhatsapp}
+                                title="Discută pe WhatsApp"
+                                href="https://wa.me/40722xxxxxx"
+                                colorClass="from-emerald-400 to-emerald-600"
+                                borderColorClass="emerald-500"
+                                delay={1.2}
+                            />
+
+                            <SocialCard
+                                icon={faTiktok}
+                                title="Urmărește-ne pe TikTok"
+                                href="https://tiktok.com/@cabinetavocat"
+                                colorClass="from-pink-500 to-rose-600"
+                                borderColorClass="pink-500"
+                                delay={1.3}
+                            />
                         </div>
                     </motion.div>
                 </motion.div>
@@ -270,37 +252,28 @@ export function HeroSection() {
                 animate={{ opacity: 1, x: 0 }}
                 style={{ opacity }}
                 transition={{ duration: 1, delay: 1, ease: "easeOut" }}
-                className="hidden lg:block absolute bottom-24 right-12 z-20 perspective-1000"
+                className="hidden xl:block absolute bottom-24 right-16 z-20 perspective-1000"
             >
                 <motion.div
-                    whileHover={{
-                        y: -10,
-                        rotateX: 5,
-                        rotateY: -5,
-                        transition: { duration: 0.4, type: "spring" }
-                    }}
-                    className="bg-slate-900/60 backdrop-blur-xl p-6 rounded-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] max-w-[340px] transform-gpu"
+                    whileHover={{ y: -10, rotateX: 5, rotateY: -5, transition: { duration: 0.4, type: "spring" } }}
+                    className="bg-white/90 dark:bg-slate-950/80 backdrop-blur-2xl p-8 rounded-3xl border border-slate-200 dark:border-white/10 shadow-[0_25px_60px_-12px_rgba(0,0,0,0.1)] dark:shadow-[0_25px_60px_-12px_rgba(0,0,0,0.6)] max-w-[380px] transform-gpu"
                 >
-                    <div className="flex items-center gap-2 mb-3">
-                        <div className="flex gap-0.5">
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map((star) => (
-                                <span key={star} className="text-amber-400 text-sm">★</span>
+                                <span key={star} className="text-amber-500 dark:text-amber-400 text-base drop-shadow-md">★</span>
                             ))}
                         </div>
-                        <span className="text-xs text-emerald-400 ml-auto font-medium">Verificat Google</span>
+                        <span className="text-xs text-emerald-600 dark:text-emerald-400 ml-auto font-bold bg-emerald-100 dark:bg-emerald-950/50 px-2 py-1 rounded-md border border-emerald-500/20">Verificat Google</span>
                     </div>
-
-                    <p className="text-slate-200 text-sm mb-4 leading-relaxed italic">
+                    <p className="text-slate-600 dark:text-slate-200 text-base mb-6 leading-relaxed italic font-light">
                         &quot;M-au scos dintr-un litigiu pe care îl tăram de 2 ani. Direct la subiect, fără perdea de timp. Recomand.&quot;
                     </p>
-
-                    <div className="flex items-center gap-3 pt-3 border-t border-white/10">
-                        <div className="h-9 w-9 rounded-full bg-linear-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold text-xs shadow-lg">
-                            MC
-                        </div>
+                    <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10">
+                        <div className="h-10 w-10 rounded-full bg-linear-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-lg ring-2 ring-white dark:ring-slate-900">MC</div>
                         <div>
-                            <p className="text-sm font-medium text-white">Mihai C.</p>
-                            <p className="text-[10px] text-slate-400 uppercase tracking-wider">Proprietar SRL • Sector 1</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-white">Mihai C.</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Proprietar SRL • Sector 1</p>
                         </div>
                     </div>
                 </motion.div>

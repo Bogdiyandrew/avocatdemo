@@ -34,7 +34,7 @@ export function ContactSection() {
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Sună-ne acum (Urgențe)</p>
-                                    <span className="text-xl font-bold text-slate-900 dark:text-white">0722xxxxxx</span>
+                                    <span className="text-xl font-bold text-slate-900 dark:text-white">0722 xxx xxx</span>
                                 </div>
                             </a>
 
