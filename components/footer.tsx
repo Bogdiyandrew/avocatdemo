@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Scale, Mail, Phone, MapPin, Facebook, Linkedin, ArrowRight } from "lucide-react";
+import { Scale } from "lucide-react";
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="relative bg-slate-950 border-t border-slate-800 pt-16 pb-8 overflow-hidden font-sans">
+        <footer className="relative bg-slate-950 border-t border-slate-800 pt-20 pb-16 overflow-hidden font-sans text-center">
+            {/* Background Pattern */}
             <div className="absolute inset-0 w-full h-full opacity-[0.03] pointer-events-none"
                 style={{
                     backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)',
@@ -15,120 +16,41 @@ export function Footer() {
                 }}
             />
 
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            <div className="container mx-auto px-4 relative z-10 flex flex-col items-center">
 
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-2">
-                            <div className="bg-white text-slate-950 p-1.5 rounded-lg">
-                                <Scale className="h-5 w-5" />
-                            </div>
-                            <span className="text-xl font-bold text-white tracking-tight">AvocatDemo</span>
-                        </div>
-                        <p className="text-slate-400 text-sm leading-relaxed">
-                            Oferim consultanță juridică strategică și reprezentare în instanță cu un singur scop: protejarea intereselor tale legitime.
-                        </p>
-                        <div className="flex gap-4">
-                            <SocialLink href="#" icon={Facebook} />
-                            <SocialLink href="#" icon={Linkedin} />
-                        </div>
+                {/* Disclaimer Block */}
+                <div className="max-w-xl mx-auto mb-12">
+                    <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-[10px] font-bold uppercase tracking-widest mb-4">
+                        Atenție
                     </div>
-
-                    <div>
-                        <h3 className="text-white font-semibold mb-6">Navigație</h3>
-                        <ul className="space-y-3">
-                            <FooterLink href="/">Acasă</FooterLink>
-                            <FooterLink href="#despre">Despre noi</FooterLink>
-                            <FooterLink href="#servicii">Arii de practică</FooterLink>
-                            <FooterLink href="/blog">Blog juridic</FooterLink>
-                            <FooterLink href="/contact">Contact</FooterLink>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="text-white font-semibold mb-6">Expertiză</h3>
-                        <ul className="space-y-3">
-                            <FooterLink href="/servicii#penal">Drept penal</FooterLink>
-                            <FooterLink href="/servicii#familie">Dreptul familiei</FooterLink>
-                            <FooterLink href="/servicii#comercial">Drept comercial</FooterLink>
-                            <FooterLink href="/servicii#imobiliare">Imobiliare</FooterLink>
-                            <FooterLink href="/servicii#daune">Malpraxis & daune</FooterLink>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="text-white font-semibold mb-6">Contact</h3>
-                        <ul className="space-y-4">
-                            <li className="flex items-start gap-3 text-slate-400 text-sm">
-                                <MapPin className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
-                                <span>
-                                    Strada Justiției Nr. 10,<br />
-                                    Sector 1, București
-                                </span>
-                            </li>
-                            <li className="flex items-center gap-3 text-slate-400 text-sm">
-                                <Phone className="w-5 h-5 text-amber-500 shrink-0" />
-                                <a href="tel:+40700000000" className="hover:text-white transition-colors">
-                                    +40 700 000 000
-                                </a>
-                            </li>
-                            <li className="flex items-center gap-3 text-slate-400 text-sm">
-                                <Mail className="w-5 h-5 text-amber-500 shrink-0" />
-                                <a href="mailto:contact@avocatdemo.ro" className="hover:text-white transition-colors">
-                                    contact@avocatdemo.ro
-                                </a>
-                            </li>
-                        </ul>
-
-                        <div className="mt-6 pt-6 border-t border-slate-800">
-                            <span className="block text-xs text-slate-500 mb-2">Program:</span>
-                            <p className="text-slate-300 text-sm">Luni - Vineri: 09:00 - 18:00</p>
-                        </div>
-                    </div>
+                    <p className="text-slate-400 text-sm leading-relaxed">
+                        Acesta este un proiect demonstrativ pentru a evidenția abilitățile de design și dezvoltare.
+                        Nu reprezintă un <span className="text-slate-200 font-medium">cabinet real</span> și nu reflectă întregul potențial al serviciilor oferite de <a href="https://digitura.ro" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 transition-colors border-b border-blue-400/30 hover:border-blue-400 pb-0.5">digitura.ro</a>.
+                    </p>
                 </div>
 
-                <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
-                    <p>© {currentYear} AvocatDemo. Toate drepturile rezervate.</p>
-                    <div className="flex gap-6">
-                        <Link href="/termeni" className="hover:text-slate-300 transition-colors">
-                            Termeni și condiții
-                        </Link>
-                        <Link href="/confidentialitate" className="hover:text-slate-300 transition-colors">
-                            Politica de confidențialitate
-                        </Link>
-                        <Link href="/cookies" className="hover:text-slate-300 transition-colors">
-                            Cookies
-                        </Link>
+                {/* Divider */}
+                <div className="w-16 h-px bg-slate-800 mb-12" />
+
+                {/* Brand Identity */}
+                <Link href="/" className="flex items-center gap-3 mb-8 group">
+                    <div className="bg-white text-slate-950 p-2.5 rounded-xl shadow-[0_0_20px_-5px_rgba(255,255,255,0.3)] group-hover:scale-110 transition-transform duration-300">
+                        <Scale className="h-6 w-6" />
                     </div>
+                    <span className="text-3xl font-bold text-white tracking-tight">AvocatDemo</span>
+                </Link>
+
+                {/* Copyright & Credits */}
+                <div className="space-y-3 text-xs text-slate-500">
+                    <p>
+                        © {currentYear} AvocatDemo. Toate drepturile rezervate.
+                    </p>
+                    <p className="font-medium">
+                        Un demo creat cu mândrie de către <a href="https://digitura.ro" target="_blank" rel="noopener noreferrer" className="text-slate-300 hover:text-white transition-colors">digitura.ro</a>
+                    </p>
                 </div>
+
             </div>
         </footer>
-    );
-}
-
-function FooterLink({ href, children }: { href: string, children: React.ReactNode }) {
-    return (
-        <li>
-            <Link
-                href={href}
-                className="group flex items-center gap-2 text-slate-400 hover:text-amber-400 transition-colors text-sm"
-            >
-                <ArrowRight className="w-3 h-3 opacity-0 -ml-3 group-hover:opacity-100 group-hover:ml-0 transition-all duration-300" />
-                {children}
-            </Link>
-        </li>
-    );
-}
-
-function SocialLink({ href, icon: Icon }: { href: string, icon: any }) {
-    return (
-        <a
-            href={href}
-            className="w-10 h-10 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-400 hover:bg-slate-800 hover:text-white hover:border-slate-700 transition-all duration-300"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <Icon className="w-4 h-4" />
-        </a>
     );
 }
