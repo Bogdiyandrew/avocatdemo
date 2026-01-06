@@ -74,9 +74,18 @@ function SocialCard({
 
 export function HeroSection() {
     const heroImages = [
-        '/photos/hero1.jpeg',
-        '/photos/hero2.jpeg',
-        '/photos/hero3.jpeg'
+        {
+            desktop: '/photos/hero1.jpeg',
+            mobile: '/photos/hero1mobile.jpeg'
+        },
+        {
+            desktop: '/photos/hero2.jpeg',
+            mobile: '/photos/hero2mobile.jpeg'
+        },
+        {
+            desktop: '/photos/hero3.jpeg',
+            mobile: '/photos/hero3mobile.jpeg'
+        }
     ];
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -121,9 +130,9 @@ export function HeroSection() {
     return (
         <section ref={containerRef} className="relative w-full min-h-screen flex items-center justify-center overflow-hidden bg-slate-950 transition-colors duration-500">
             <motion.div style={{ y }} className="absolute inset-0 w-full h-full scale-110 z-0">
-                {heroImages.map((src, index) => (
+                {heroImages.map((imgObj, index) => (
                     <motion.div
-                        key={src}
+                        key={index}
                         initial={{ scale: 1.1 }}
                         animate={{
                             scale: index === currentImageIndex ? 1 : 1.1,
@@ -132,19 +141,34 @@ export function HeroSection() {
                         transition={{ duration: 1.5, ease: "easeInOut" }}
                         className="absolute inset-0"
                     >
-                        <Image
-                            src={src}
-                            alt={`Cabinet avocatură ${index + 1}`}
-                            fill
-                            priority={index === 0}
-                            className="object-cover"
-                            quality={90}
-                        />
+                        <div className="block md:hidden h-full w-full relative">
+                            <Image
+                                src={imgObj.mobile}
+                                alt={`Cabinet avocatură ${index + 1} mobile`}
+                                fill
+                                priority={index === 0}
+                                className="object-cover object-center"
+                                quality={85}
+                                sizes="100vw"
+                            />
+                        </div>
+
+                        <div className="hidden md:block h-full w-full relative">
+                            <Image
+                                src={imgObj.desktop}
+                                alt={`Cabinet avocatură ${index + 1} desktop`}
+                                fill
+                                priority={index === 0}
+                                className="object-cover"
+                                quality={90}
+                                sizes="100vw"
+                            />
+                        </div>
                     </motion.div>
                 ))}
             </motion.div>
 
-            <div className="absolute inset-0 bg-linear-to-r from-slate-950/95 via-slate-900/85 to-slate-900/50 z-10 transition-colors duration-500" />
+            <div className="absolute inset-0 bg-linear-to-r from-slate-950/90 via-slate-900/80 to-slate-900/40 md:from-slate-950/95 md:via-slate-900/85 md:to-slate-900/50 z-10 transition-colors duration-500" />
 
             <div className="absolute inset-0 z-10 opacity-20 pointer-events-none text-white"
                 style={{

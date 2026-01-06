@@ -147,7 +147,6 @@ export default function ServicesPage() {
     return (
         <main className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300">
 
-            {/* HERO SECTION */}
             <section className="relative pt-32 pb-20 px-4 bg-slate-900 overflow-hidden border-b border-slate-800">
                 <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
                 <div className="container mx-auto relative z-10 text-center max-w-4xl">
@@ -180,7 +179,6 @@ export default function ServicesPage() {
             <div className="container mx-auto px-4 md:px-6 py-16 relative">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
 
-                    {/* SIDEBAR NAVIGATION (Sticky) */}
                     <aside className="lg:col-span-3 lg:sticky lg:top-28 h-fit hidden lg:block">
                         <nav className="space-y-1">
                             {servicesData.map((service) => (
@@ -197,12 +195,11 @@ export default function ServicesPage() {
                                     `}
                                 >
                                     <service.icon className={`w-4 h-4 ${activeSection === service.id ? "text-amber-500" : "text-slate-400 group-hover:text-slate-600"}`} />
-                                    <span>{service.title.split(' ')[0]}...</span> {/* Afișăm titlul scurt în meniu */}
+                                    <span>{service.title.split(' ')[0]}...</span>
                                 </button>
                             ))}
                         </nav>
 
-                        {/* Quick Contact Widget */}
                         <div className="mt-8 p-6 rounded-2xl bg-slate-900 text-white shadow-xl relative overflow-hidden group">
                             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/20 rounded-full blur-2xl -mr-16 -mt-16 transition-opacity group-hover:opacity-100"></div>
                             <h4 className="font-bold text-lg mb-2 relative z-10">Consultanță inițială</h4>
