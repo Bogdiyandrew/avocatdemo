@@ -187,7 +187,7 @@ export default function AboutPage() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                                className="bg-white dark:bg-slate-950 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-all duration-300"
+                                className="bg-white dark:bg-slate-950 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-lg transition-shadow duration-300"
                             >
                                 <div className="w-14 h-14 bg-amber-50 dark:bg-amber-900/10 text-amber-600 dark:text-amber-500 rounded-2xl flex items-center justify-center mb-6">
                                     <val.icon className="w-7 h-7" />
@@ -225,7 +225,7 @@ export default function AboutPage() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: "-50px" }}
                             transition={{ delay: index * 0.1, duration: 0.5 }}
-                            className="group relative bg-white dark:bg-slate-950 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all duration-300"
+                            className="group relative bg-white dark:bg-slate-950 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-shadow duration-300"
                         >
                             <div className="aspect-3/4 relative overflow-hidden bg-slate-100 dark:bg-slate-900">
                                 <Image
