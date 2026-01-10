@@ -213,7 +213,6 @@ export default function ServicesPage() {
                         </div>
                     </aside>
 
-                    {/* MAIN CONTENT AREA */}
                     <div className="lg:col-span-9 space-y-20">
                         {servicesData.map((service, index) => (
                             <section
@@ -228,7 +227,6 @@ export default function ServicesPage() {
                                     transition={{ duration: 0.5 }}
                                     className="bg-white dark:bg-slate-950 rounded-3xl p-8 md:p-10 border border-slate-200 dark:border-slate-800 shadow-sm"
                                 >
-                                    {/* Service Header */}
                                     <div className="flex flex-col md:flex-row md:items-start gap-6 mb-8 border-b border-slate-100 dark:border-slate-900 pb-8">
                                         <div className={`p-4 rounded-2xl ${service.bg} ${service.color} shrink-0 w-fit`}>
                                             <service.icon className="w-10 h-10" />
@@ -243,7 +241,6 @@ export default function ServicesPage() {
                                         </div>
                                     </div>
 
-                                    {/* Custom Content or Features Grid */}
                                     {service.content ? (
                                         service.content
                                     ) : (
@@ -262,7 +259,6 @@ export default function ServicesPage() {
                                         </div>
                                     )}
 
-                                    {/* Action Footer per card */}
                                     <div className="mt-8 pt-6 flex items-center justify-between">
                                         <Link
                                             href="/contact"
@@ -276,7 +272,6 @@ export default function ServicesPage() {
                             </section>
                         ))}
 
-                        {/* Final CTA Block similar to source site */}
                         <div className="bg-slate-900 rounded-2xl p-8 md:p-12 text-center">
                             <h3 className="text-2xl font-bold text-white mb-4">
                                 Nu ești sigur ce să alegi?
