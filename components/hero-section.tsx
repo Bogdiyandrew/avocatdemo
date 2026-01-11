@@ -188,7 +188,7 @@ export function HeroSection() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-300">Cabinet Autorizat București</span>
+                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-300">Cabinet Autorizat Piteşti</span>
                     </motion.div>
 
                     <motion.h1 variants={titleVariants} className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight">
@@ -203,7 +203,7 @@ export function HeroSection() {
                     </motion.h1>
 
                     <motion.p variants={itemVariants} className="text-lg md:text-2xl text-slate-300 mb-10 max-w-2xl font-light leading-relaxed">
-                        De 12 ani câștigăm procese în <strong className="text-white font-semibold">București</strong>. Litigii, contracte, penal — rezultate concrete, fără compromisuri.
+                        De 12 ani câștigăm procese în <strong className="text-white font-semibold">Piteşti</strong>. Litigii, contracte, penal — rezultate concrete, fără compromisuri.
                     </motion.p>
 
                     <motion.div variants={itemVariants} className="flex flex-wrap gap-8 mb-12">
@@ -297,7 +297,7 @@ export function HeroSection() {
                         <div className="h-10 w-10 rounded-full bg-linear-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-lg ring-2 ring-white dark:ring-slate-900">MC</div>
                         <div>
                             <p className="text-sm font-bold text-slate-900 dark:text-white">Mihai C.</p>
-                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Proprietar SRL • Sector 1</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Proprietar SRL • Piteşti</p>
                         </div>
                     </div>
                 </motion.div>
