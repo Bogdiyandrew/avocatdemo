@@ -221,7 +221,7 @@ export function HeroSection() {
                                 <Clock className="h-6 w-6 text-amber-400" />
                             </div>
                             <div>
-                                <CounterAnimation target={2} suffix="h" />
+                                <CounterAnimation target={20} suffix="min." />
                                 <div className="text-[10px] font-bold uppercase tracking-wider text-slate-400">răspuns rapid</div>
                             </div>
                         </motion.div>

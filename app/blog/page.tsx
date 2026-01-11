@@ -78,27 +78,26 @@ const BLOG_POSTS = [
 export default function BlogPage() {
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 pt-24 pb-20">
-
-
             <section className="container mx-auto px-4 md:px-6 mb-16 text-center max-w-4xl">
                 <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6"
+                    // NOTA: opacity-0 previne flash-ul initial
+                    className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white mb-6 opacity-0"
                 >
-                    Blog Juridic & <span className="text-blue-600 dark:text-blue-400">Noutăți</span>
+                    Blog juridic şi <span className="text-blue-600 dark:text-blue-400">noutăți</span>
                 </motion.h1>
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.1 }}
-                    className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed"
+                    // NOTA: opacity-0 previne flash-ul initial
+                    className="text-lg text-slate-600 dark:text-slate-400 leading-relaxed opacity-0"
                 >
                     Analize legislative, studii de caz și sfaturi practice explicate pe înțelesul tuturor.
                     Rămâi informat pentru a-ți proteja mai bine drepturile.
                 </motion.p>
             </section>
-
 
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -107,11 +106,11 @@ export default function BlogPage() {
                             key={post.id}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
+                            viewport={{ once: true, margin: "-50px" }}
                             transition={{ delay: index * 0.1 }}
-                            className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xs hover:shadow-xl hover:shadow-blue-900/5 dark:hover:shadow-blue-900/10 transition-all duration-300"
+                            // NOTA: opacity-0 previne flash-ul initial
+                            className="group flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-xs hover:shadow-xl hover:shadow-blue-900/5 dark:hover:shadow-blue-900/10 transition-all duration-300 opacity-0"
                         >
-
                             <div className="relative h-56 overflow-hidden">
                                 <Image
                                     src={post.image}
@@ -125,9 +124,7 @@ export default function BlogPage() {
                                 </div>
                             </div>
 
-
                             <div className="flex-1 p-6 flex flex-col">
-
                                 <div className="flex items-center gap-4 text-xs text-slate-500 dark:text-slate-400 mb-4">
                                     <span className="flex items-center gap-1">
                                         <Calendar className="w-3.5 h-3.5" />
@@ -148,7 +145,6 @@ export default function BlogPage() {
                                 <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed mb-6 line-clamp-3">
                                     {post.excerpt}
                                 </p>
-
 
                                 <div className="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                                     <div className="flex items-center gap-2">
