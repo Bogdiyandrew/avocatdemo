@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Clock, Award, Phone, Video, ArrowRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTiktok, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import { faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { motion, useScroll, useTransform, useInView, Variants, useMotionValue, animate } from 'framer-motion';
 
 function CounterAnimation({ target, suffix = '' }: { target: number; suffix?: string }) {
@@ -259,9 +259,9 @@ export function HeroSection() {
                             />
 
                             <SocialCard
-                                icon={faTiktok}
-                                title="Urmărește-ne pe TikTok"
-                                href="https://tiktok.com/@cabinetavocat"
+                                icon={faLinkedin}
+                                title="Urmărește-ne pe Linkedin"
+                                href="https://www.linkedin.com/feed/"
                                 colorClass="from-pink-500 to-rose-600"
                                 borderColorClass="pink-500"
                                 delay={1.3}
