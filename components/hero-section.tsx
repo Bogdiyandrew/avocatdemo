@@ -97,12 +97,15 @@ export function HeroSection() {
     });
 
     const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-    const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+    
+    // MODIFICARE: Am schimbat intervalul de la 0.5 la 0.8 pentru un fade out mai lent la scroll
+    const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
     useEffect(() => {
+        // Am mărit intervalul la 6 secunde pentru a permite animației lente să respire
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) => prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1);
-        }, 5000);
+        }, 6000);
         return () => clearInterval(interval);
     }, [heroImages.length]);
 
@@ -133,12 +136,19 @@ export function HeroSection() {
                 {heroImages.map((imgObj, index) => (
                     <motion.div
                         key={index}
-                        initial={{ scale: 1.1 }}
+                        initial={{ scale: 1.1, opacity: 0 }}
                         animate={{
+                            // MODIFICARE MAJORĂ: Control separat pentru opacity, scale și zIndex
+                            opacity: index === currentImageIndex ? 1 : 0,
                             scale: index === currentImageIndex ? 1 : 1.1,
-                            opacity: index === currentImageIndex ? 1 : 0
+                            zIndex: index === currentImageIndex ? 10 : 0
                         }}
-                        transition={{ duration: 1.5, ease: "easeInOut" }}
+                        transition={{
+                            // Opacitate lentă (2.5s) pentru crossfade
+                            opacity: { duration: 2.5, ease: "easeInOut" },
+                            // Scale foarte lent (7s) pentru efect cinematic
+                            scale: { duration: 7, ease: "linear" }
+                        }}
                         className="absolute inset-0"
                     >
                         <div className="block md:hidden h-full w-full relative">

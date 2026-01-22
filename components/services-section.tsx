@@ -58,7 +58,7 @@ const services = [
         iconColor: "text-amber-500",
         className: "md:col-span-2 md:row-span-1",
         href: "/serviciilenoastre",
-        tags: ["Due Diligence", "Antecontracte", "Vânzări", "Litigii Funciare"]
+        tags: ["Antecontracte", "Vânzări", "Litigii funciare"]
     },
     {
         title: "Malpraxis & Daune",
@@ -69,7 +69,7 @@ const services = [
         iconColor: "text-purple-500",
         className: "md:col-span-2 md:row-span-1",
         href: "/serviciilenoastre",
-        tags: ["Accidente Auto", "Erori Medicale", "Accidente Muncă"]
+        tags: ["Accidente auto", "Erori medicale", "Accidente muncă"]
     },
 ];
 
