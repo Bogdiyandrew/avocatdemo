@@ -91,18 +91,27 @@ export function HeroSection() {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const containerRef = useRef(null);
 
+    // STATE NOU: Detectăm dacă e mobil
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start start", "end start"]
     });
 
     const y = useTransform(scrollYProgress, [0, 1], ['0%', '30%']);
-    
-    // MODIFICARE: Am schimbat intervalul de la 0.5 la 0.8 pentru un fade out mai lent la scroll
     const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
     useEffect(() => {
-        // Am mărit intervalul la 6 secunde pentru a permite animației lente să respire
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) => prevIndex === heroImages.length - 1 ? 0 : prevIndex + 1);
         }, 6000);
@@ -138,15 +147,12 @@ export function HeroSection() {
                         key={index}
                         initial={{ scale: 1.1, opacity: 0 }}
                         animate={{
-                            // MODIFICARE MAJORĂ: Control separat pentru opacity, scale și zIndex
                             opacity: index === currentImageIndex ? 1 : 0,
                             scale: index === currentImageIndex ? 1 : 1.1,
                             zIndex: index === currentImageIndex ? 10 : 0
                         }}
                         transition={{
-                            // Opacitate lentă (2.5s) pentru crossfade
                             opacity: { duration: 2.5, ease: "easeInOut" },
-                            // Scale foarte lent (7s) pentru efect cinematic
                             scale: { duration: 7, ease: "linear" }
                         }}
                         className="absolute inset-0"
@@ -188,7 +194,8 @@ export function HeroSection() {
             />
 
             <motion.div
-                style={{ opacity }}
+                // MODIFICARE AICI: Pe mobil ignorăm variabila 'opacity' și punem 1 fix.
+                style={{ opacity: isMobile ? 1 : opacity }}
                 className="container px-4 md:px-6 mx-auto relative z-20 pt-28 md:pt-32 pb-20"
             >
                 <motion.div className="max-w-4xl" variants={containerVariants} initial="hidden" animate="visible">
