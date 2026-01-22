@@ -359,7 +359,7 @@ export function Header() {
                                             onClick={() => setIsMenuOpen(false)}
                                             className="flex items-center justify-center w-full mt-4 h-12 rounded-xl bg-linear-to-r from-slate-900 to-slate-700 dark:from-blue-600 dark:to-blue-700 text-white font-medium shadow-lg"
                                         >
-                                            Consultă Acum
+                                            Consultă acum
                                         </Link>
                                     </motion.div>
                                 </div>
