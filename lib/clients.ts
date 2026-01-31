@@ -17,15 +17,15 @@ export const clients: Record<string, ClientData> = {
   // Client 1: Mateescu
   // Link-ul va fi: site.ro/mateescu
   mateescu: {
-    name: "Av. Dragoș Mateescu",
-    phone: "0744 555 666", // PUNE NUMARUL LUI REAL AICI
-    email: "avocat.mateescu@gmail.com",
-    location: "Cabinet Autorizat Pitești",
-    heroTitle: "Problemele penale cer o apărare agresivă și inteligentă.",
+    name: "Av. Dragoș Ioan Mateescu",
+    phone: "0722 177 473",
+    email: "contact@avocatmateescu.ro", // PUNE MAIL-UL LUI REAL DACA IL GASESTI, altfel lasa-l pe asta generic
+    location: "Str. Mihai Eminescu nr.11, Pitești",
+    heroTitle: "Expertiză completă în Drept Civil, Penal și Comercial.",
     review: {
-      text: "Domnul avocat m-a salvat dintr-o situație imposibilă cu un dosar penal vechi. Recomand pentru profesionalism.",
-      author: "Marian D.",
-      role: "Client Mulțumit"
+      text: "Un avocat de nota 10. Profesionalism și dedicare totală în sala de judecată. Recomand cu încredere pentru rezultate concrete.",
+      author: "Client Google",
+      role: "Recenzie 5.0 ★"
     }
   },
 
@@ -43,7 +43,7 @@ export const clients: Record<string, ClientData> = {
       role: "Administrator"
     }
   },
-  
+
   // Aici adaugi următorii clienți...
 };
 
