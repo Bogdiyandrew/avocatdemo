@@ -4,6 +4,7 @@ import { ServicesSection } from "@/components/services-section";
 import { AboutSection } from "@/components/about-section";
 import { ContactSection } from "@/components/contact-section";
 
+
 // Generăm paginile statice pentru viteză
 export async function generateStaticParams() {
   return Object.keys(clients).map((slug) => ({
@@ -29,7 +30,6 @@ export default async function ClientPage({ params }: Props) {
       <ServicesSection />
       <AboutSection />
       {/* Contact Section primește date statice momentan, dar e ok */}
-      <ContactSection />
-    </main>
+        <ContactSection data={clientData} />        </main>
   );
 }
