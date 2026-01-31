@@ -11,7 +11,6 @@ export default function Home() {
       <HeroSection data={defaultClient} />
       <ServicesSection />
       <AboutSection />
-      <ContactSection />
-    </>
+  <ContactSection data={defaultClient} />    </>
   );
 }

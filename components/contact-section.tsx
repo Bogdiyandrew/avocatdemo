@@ -1,9 +1,16 @@
 "use client"
 
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send, AlertCircle, CheckCircle2, FormIcon } from "lucide-react";
+import { Phone, Mail, MapPin, AlertCircle, CheckCircle2, FormIcon } from "lucide-react";
+// IMPORTĂM interfața
+import { ClientData } from "@/lib/clients";
 
-export function ContactSection() {
+// Definim props
+interface ContactProps {
+    data: ClientData;
+}
+
+export function ContactSection({ data }: ContactProps) {
     const [formStatus, setFormStatus] = useState<"idle" | "success">("idle");
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -23,38 +30,42 @@ export function ContactSection() {
                                 Hai să discutăm cazul tău
                             </h2>
                             <p className="text-lg text-slate-600 dark:text-slate-400">
-                                Primul pas către rezolvarea problemei tale este o discuție deschisă. Răspundem cu promptitudine la orice solicitare.
+                                Primul pas către rezolvarea problemei tale este o discuție deschisă cu 
+                                <span className="font-bold text-slate-900 dark:text-white"> {data.name}</span>.
                             </p>
                         </div>
 
                         <div className="space-y-6">
-                            <a href="tel:0722xxxxxx" className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
+                            {/* TELEFON DINAMIC */}
+                            <a href={`tel:${data.phone}`} className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform">
                                     <Phone className="h-6 w-6" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Sună-ne acum (Urgențe)</p>
-                                    <span className="text-xl font-bold text-slate-900 dark:text-white">0722 xxx xxx</span>
+                                    <span className="text-xl font-bold text-slate-900 dark:text-white">{data.phone}</span>
                                 </div>
                             </a>
 
-                            <a href="mailto:contact@avocatdemo.ro" className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
+                            {/* EMAIL DINAMIC */}
+                            <a href={`mailto:${data.email}`} className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all group">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform">
                                     <Mail className="h-6 w-6" />
                                 </div>
                                 <div>
                                     <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Trimite un email</p>
-                                    <span className="text-lg font-bold text-slate-900 dark:text-white">contact@avocatdemo.ro</span>
+                                    <span className="text-lg font-bold text-slate-900 dark:text-white">{data.email}</span>
                                 </div>
                             </a>
 
+                            {/* LOCATIE DINAMICĂ */}
                             <div className="flex items-center gap-4 p-5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
                                 <div className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400">
                                     <MapPin className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Sediu Central</p>
-                                    <span className="text-lg font-bold text-slate-900 dark:text-white">Strada Justiției Nr. 1, București</span>
+                                    <p className="text-sm font-medium text-slate-500 dark:text-slate-400">Sediu</p>
+                                    <span className="text-lg font-bold text-slate-900 dark:text-white">{data.location}</span>
                                 </div>
                             </div>
                         </div>
@@ -62,13 +73,15 @@ export function ContactSection() {
                         <div className="flex gap-3 items-start p-4 bg-blue-50 dark:bg-blue-900/10 rounded-xl border border-blue-100 dark:border-blue-900/30">
                             <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
                             <p className="text-sm text-blue-800 dark:text-blue-300">
-                                Toate discuțiile sunt supuse secretului profesional și sunt 100% confidențiale, indiferent dacă alegeți sau nu să ne angajați ulterior.
+                                Toate discuțiile cu {data.name} sunt supuse secretului profesional și sunt 100% confidențiale.
                             </p>
                         </div>
                     </div>
 
+                    {/* Formularul rămâne la fel vizual */}
                     <div className="bg-white dark:bg-slate-950 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xl">
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* ... Restul formularului (Input-uri) rămâne neschimbat ... */}
                             <div className="grid md:grid-cols-2 gap-6">
                                 <div className="space-y-2">
                                     <label htmlFor="nume" className="text-sm font-semibold text-slate-900 dark:text-slate-200">Nume complet</label>
@@ -83,7 +96,6 @@ export function ContactSection() {
                             <div className="space-y-2">
                                 <label htmlFor="tip-problema" className="text-sm font-semibold text-slate-900 dark:text-slate-200">Tipul de problemă</label>
                                 <div className="relative">
-
                                     <select
                                         id="tip-problema"
                                         defaultValue=""
@@ -96,8 +108,6 @@ export function ContactSection() {
                                         <option value="civil">Litigii civile / Imobiliare</option>
                                         <option value="altul">Altă problemă</option>
                                     </select>
-
-
                                     <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
                                         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                                     </div>
