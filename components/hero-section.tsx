@@ -8,6 +8,8 @@ import { Clock, Award, Phone, Video, ArrowRight } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 import { motion, useScroll, useTransform, useInView, Variants, useMotionValue, animate } from 'framer-motion';
+// IMPORT CRITIC: Importăm interfața de date
+import { ClientData } from "@/lib/clients";
 
 function CounterAnimation({ target, suffix = '' }: { target: number; suffix?: string }) {
     const ref = useRef(null);
@@ -72,7 +74,12 @@ function SocialCard({
     );
 }
 
-export function HeroSection() {
+// Definim props-urile componentei
+interface HeroProps {
+    data: ClientData;
+}
+
+export function HeroSection({ data }: HeroProps) {
     const heroImages = [
         {
             desktop: '/photos/hero1.jpeg',
@@ -90,8 +97,6 @@ export function HeroSection() {
 
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const containerRef = useRef(null);
-
-    // STATE NOU: Detectăm dacă e mobil
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -194,7 +199,6 @@ export function HeroSection() {
             />
 
             <motion.div
-                // MODIFICARE AICI: Pe mobil ignorăm variabila 'opacity' și punem 1 fix.
                 style={{ opacity: isMobile ? 1 : opacity }}
                 className="container px-4 md:px-6 mx-auto relative z-20 pt-28 md:pt-32 pb-20"
             >
@@ -205,22 +209,24 @@ export function HeroSection() {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         </span>
-                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-300">Cabinet Autorizat Piteşti</span>
+                        {/* LOCATIE DINAMICĂ */}
+                        <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-slate-300">
+                            {data.location}
+                        </span>
                     </motion.div>
 
+                    {/* TITLU DINAMIC */}
                     <motion.h1 variants={titleVariants} className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-[1.05] tracking-tight">
-                        <div className="overflow-hidden">
-                            <motion.span variants={wordVariants} className="inline-block mr-4">Drepturile</motion.span>
-                            <motion.span variants={wordVariants} className="inline-block mr-4">tale</motion.span>
-                            <motion.span variants={wordVariants} className="inline-block">merită</motion.span>
-                        </div>
-                        <motion.span variants={wordVariants} className="bg-clip-text text-transparent bg-linear-to-r from-amber-100 via-amber-400 to-amber-100 bg-size-[200%_auto] animate-[shimmer_4s_linear_infinite] mt-2 inline-block pb-2 drop-shadow-sm">
-                            o apărare serioasă.
+                        <motion.span 
+                            variants={wordVariants} 
+                            className="bg-clip-text text-transparent bg-linear-to-r from-white via-amber-200 to-amber-500 bg-size-[200%_auto] animate-[shimmer_4s_linear_infinite] mt-2 inline-block pb-2 drop-shadow-sm"
+                        >
+                            {data.heroTitle}
                         </motion.span>
                     </motion.h1>
 
                     <motion.p variants={itemVariants} className="text-lg md:text-2xl text-slate-300 mb-10 max-w-2xl font-light leading-relaxed">
-                        De 12 ani câștigăm procese în <strong className="text-white font-semibold">Piteşti</strong>. Litigii, contracte, penal — rezultate concrete, fără compromisuri.
+                        De 12 ani câștigăm procese. Litigii, contracte, penal — rezultate concrete, fără compromisuri.
                     </motion.p>
 
                     <motion.div variants={itemVariants} className="flex flex-wrap gap-8 mb-12">
@@ -248,9 +254,10 @@ export function HeroSection() {
                         <div className="flex flex-col sm:flex-row gap-4">
                             <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="w-full sm:w-auto">
                                 <Button asChild size="lg" className="w-full sm:w-auto h-16 px-10 bg-red-600 hover:bg-red-700 text-white text-lg font-semibold shadow-[0_0_50px_-12px_rgba(220,38,38,0.6)] border-0 rounded-2xl">
-                                    <Link href="tel:+40722xxxxxx">
+                                    {/* TELEFON DINAMIC */}
+                                    <Link href={`tel:${data.phone}`}>
                                         <Phone className="mr-2 h-5 w-5" />
-                                        Urgențe: 0722 xxx xxx
+                                        Urgențe: {data.phone}
                                     </Link>
                                 </Button>
                             </motion.div>
@@ -266,10 +273,11 @@ export function HeroSection() {
                         </div>
 
                         <div className="flex flex-col gap-3 mt-2 sm:mt-0 max-w-md">
+                            {/* WHATSAPP DINAMIC */}
                             <SocialCard
                                 icon={faWhatsapp}
                                 title="Discută pe WhatsApp"
-                                href="https://wa.me/40722xxxxxx"
+                                href={`https://wa.me/${data.phone.replace(/\s/g, '').replace('0', '40')}`} // Curățare simplă pt link
                                 colorClass="from-emerald-400 to-emerald-600"
                                 borderColorClass="emerald-500"
                                 delay={1.2}
@@ -288,6 +296,7 @@ export function HeroSection() {
                 </motion.div>
             </motion.div>
 
+            {/* RECENZIE DINAMICĂ */}
             <motion.div
                 initial={{ opacity: 0, x: 100 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -308,13 +317,15 @@ export function HeroSection() {
                         <span className="text-xs text-emerald-600 dark:text-emerald-400 ml-auto font-bold bg-emerald-100 dark:bg-emerald-950/50 px-2 py-1 rounded-md border border-emerald-500/20">Verificat Google</span>
                     </div>
                     <p className="text-slate-600 dark:text-slate-200 text-base mb-6 leading-relaxed italic font-light">
-                        &quot;M-au scos dintr-un litigiu pe care îl tăram de 2 ani. Direct la subiect, fără perdea de timp. Recomand.&quot;
+                        &quot;{data.review.text}&quot;
                     </p>
                     <div className="flex items-center gap-4 pt-4 border-t border-slate-200 dark:border-white/10">
-                        <div className="h-10 w-10 rounded-full bg-linear-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-lg ring-2 ring-white dark:ring-slate-900">MC</div>
+                        <div className="h-10 w-10 rounded-full bg-linear-to-br from-amber-400 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-lg ring-2 ring-white dark:ring-slate-900">
+                            {data.review.author.charAt(0)}
+                        </div>
                         <div>
-                            <p className="text-sm font-bold text-slate-900 dark:text-white">Mihai C.</p>
-                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Proprietar SRL • Piteşti</p>
+                            <p className="text-sm font-bold text-slate-900 dark:text-white">{data.review.author}</p>
+                            <p className="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-wider font-semibold">{data.review.role}</p>
                         </div>
                     </div>
                 </motion.div>

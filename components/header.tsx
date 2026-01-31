@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Scale, Menu, X, ChevronRight, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+// Importăm "baza de date" de clienți
+import { clients, defaultClient } from "@/lib/clients";
 
 function ThemeToggle() {
     const { setTheme, theme } = useTheme();
@@ -45,6 +47,13 @@ export function Header() {
     const { scrollY } = useScroll();
     const headerScale = useTransform(scrollY, [0, 100], [1, 0.98]);
     const headerY = useTransform(scrollY, [0, 100], [0, -8]);
+
+    // ---------------------------------------------------------
+    // LOGICA NOUĂ: Determinăm clientul pe baza URL-ului
+    // ---------------------------------------------------------
+    const slug = pathname?.split("/")[1]; // Ia primul segment din URL (ex: "mateescu")
+    // Dacă există un client cu acest slug, îl folosim. Altfel, folosim default.
+    const currentClient = (slug && clients[slug]) ? clients[slug] : defaultClient;
 
     useEffect(() => {
         if (pathname === "/") {
@@ -116,6 +125,8 @@ export function Header() {
     }, [isMenuOpen]);
 
     const handleHomeClick = (e: React.MouseEvent) => {
+        // Dacă suntem pe un sub-client, vrem să rămânem acolo, nu să mergem la root "/"
+        // Dar pentru simplitate, momentan lasă link-ul href="/"
         if (pathname === '/') {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -181,7 +192,7 @@ export function Header() {
                     <div className="flex h-14 items-center justify-between px-6">
                         <motion.div variants={itemVariants}>
                             <Link
-                                href="/"
+                                href="/" // Ideal ar fi să link-uiască spre `/${slug}` dacă există slug
                                 className="flex items-center gap-2 group relative z-50"
                                 onClick={handleHomeClick}
                             >
@@ -193,7 +204,8 @@ export function Header() {
                                     <Scale className="h-4 w-4" />
                                 </motion.div>
                                 <span className="text-lg font-bold tracking-tight text-slate-900 dark:text-white transition-colors">
-                                    AvocatDemo
+                                    {/* Aici afișăm numele dinamic */}
+                                    {currentClient.name}
                                 </span>
                             </Link>
                         </motion.div>
